@@ -1,22 +1,31 @@
-<div class=" intro">
-  <h2>Connecte Toi</h2>
-  <div class="connect_form">
-</div>
-  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="form-inputs">
-      <%= f.input :email,
-                required: false,
-                autofocus: true,
-                label:'Email',
-                input_html: { autocomplete: "email", class: 'input_field' } %>
-      <%= f.input :password,
-                required: false,
-                label:'Mot de passe',
-                input_html: { autocomplete: "current-password",class: 'input_field' } %>
-      <%= f.input :remember_me, label:'Se souvenir de moi', as: :boolean if devise_mapping.rememberable? %>
-    </div>
-    <div class="form-actions">
-      <%= f.button :submit, "Log in" %>
-    </div>
-  <% end %>
+<div class="intro_top">
+  <div class=" img-intro">
   </div>
+  <div class="connect-form">
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-inputs">
+        <%= f.input :email,
+                required: true,
+                autofocus: true,
+                label: false,
+                input_html: { autocomplete: "email", class: 'input_field' } %>
+        <%= f.input :password,
+                required: true,
+                label: false,
+                input_html: { autocomplete: "current-password",class: 'input_field' } %>
+        <%= f.input :remember_me, label:'Se souvenir de moi', as: :boolean if devise_mapping.rememberable? %>
+        <div class="form-actions">
+          <%= f.button :submit, "Connexion",class: 'submit-btn' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>
+<div class="mentions">
+  <h2>
+    A vroad Studio Production
+    <br>
+    Powered By TMDB API
+  </h2>
+</div>
