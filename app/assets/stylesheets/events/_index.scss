@@ -1,0 +1,53 @@
+@import "show";
+
+// SCSS for the index page of event conrtoller
+
+.title {
+  text-align: center;
+  color: rgb(221, 172, 37);
+  h1 {
+    font-family: $bomba;
+  }
+  border-bottom: thin solid gainsboro;
+}
+.event-card {
+  margin: 30px auto;
+
+  color: whitesmoke;
+  width: 330px;
+  height: 120px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+
+  display: flex;
+  // align-items: baseline;
+  justify-content: space-between;
+  h2, h5{
+        text-decoration: none;
+    color: rgb(87, 62, 10);
+    font-family: $bomba;
+  }
+  a {
+    text-decoration: none;
+  }
+  &:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5px 0 5px 20px;
+    a{
+      text-decoration: none;
+    }
+  }
+
+  .event-poster {
+    img {
+      height: 120px;
+      border-radius: 0 15px 15px 0;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div class="d-flex flex-column p-4">
+  <div class="title">
+    <h1>Les soirées <br>
+      Ciné Club</h1>
+  </div>
+  <% @events.each do |event|%>
+    <%= link_to event_path(event) do %>
+      <div class="event-card ">
+        <div class="left">
+          <h2><%= event.name.capitalize %></h2>
+          <h5> <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date, format: :long, locale: "fr") %></h5>
+        </div>
+        <div class='event-poster right'>
+          <%= image_tag event.movies.sample.poster_url %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

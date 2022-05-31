@@ -1,20 +1,53 @@
 // Specific CSS for your home-page
-.intro {
-  margin: 0 auto;
-  padding: 12px;
-  height: 444px;
-  background-image: url("https://res.cloudinary.com/bensoucdev/image/upload/v1653994187/cineclub/img/back_home_pxvf63.jpg");
-  background-size: cover;
-  font-family: $body-font;
+.intro_top{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
 }
-
+.img-intro {
+  margin: 0 auto;
+  width: 382px;
+  height: 440px;
+  background-image: url("https://res.cloudinary.com/bensoucdev/image/upload/v1653994187/cineclub/img/back_home_pxvf63.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.center-div {
+  margin: 0 auto;
+  padding-left: 2rem;
+}
 .connect_form {
   background-color: black;
-  color: white;
+  color: white !important;
+  margin-top: 450px;
+  text-align: center;
 }
 .input_field {
+  margin-left: 15px;
   max-width: 300px;
   height: 35px;
   font-size: 16px;
   border-radius: 15px;
+  color: gray;
+}
+.form-actions, .form-inputs {
+  text-align: center !important;
+}
+.submit-btn {
+  color: blanchedalmond;
+  background-color: cadetblue;
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.mentions {
+  border-top: thin solid bisque;
+  padding: 15px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  color: bisque;
+  text-align: center;
 }
