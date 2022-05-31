@@ -1,14 +1,10 @@
-module ApplicationHelper
+module ContentHelper
   def resource_name
     :user
   end
 
   def resource
     @resource ||= User.new
-  end
-
-  def resource_class
-    User
   end
 
   def devise_mapping

@@ -1,1 +1,20 @@
 // Specific CSS for your home-page
+.intro {
+  margin: 0 auto;
+  padding: 12px;
+  height: 444px;
+  background-image: url("https://res.cloudinary.com/bensoucdev/image/upload/v1653994187/cineclub/img/back_home_pxvf63.jpg");
+  background-size: cover;
+  font-family: $body-font;
+}
+
+.connect_form {
+  background-color: black;
+  color: white;
+}
+.input_field {
+  max-width: 300px;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 15px;
+}
