@@ -1,1 +1,2 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+CineClub is an app for mobile, dedicated to movie lovers and Cinéclub associates.
+It allow to select and vote for the next session program
