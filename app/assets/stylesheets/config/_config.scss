@@ -6,3 +6,16 @@ body {
 a {
   text-decoration: none !important;
 }
+
+.management{
+  position:fixed;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  font-size: 40px;
+  a{
+    color: rgb(221, 172, 37);
+  }
+}

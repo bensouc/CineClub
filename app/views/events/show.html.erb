@@ -5,27 +5,26 @@
     <% end %>
     <h1><%=I18n.l(@event.date, format: :long, locale: "fr")%></h1>
   </div>
-  <div class="choices">
+  <div class="choices ">
     <%@choices.each do |choice|%>
       <div class=movie-detailed-card>
         <div class="details">
           <div class="left">
-            <h2><%= choice.movie.title.capitalize %></h2>
-            <h5>Réal :  a venir </h5>
-
-            <h5>Genre : <%= choice.movie.kind%> </h5>
-            <h5>Année : <%= choice.movie.year%> </h5>
-            <%= link_to "Bande Annonce", choice.movie.trailer_url, target: 'blank', class: "trailer_url" %>
-
+            <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
+              <i class="fa-solid fa-film"></i>
+            <% end %>
           </div>
           <div class='event-poster'>
             <%= image_tag choice.movie.poster_url %>
           </div>
         </div>
-                <div class="vote-logo">
+        <div class="vote-logo">
           <i class="fa-solid fa-circle-plus"></i>
         </div>
       </div>
     <% end %>
   </div>
+</div>
+<div class="footer">
+
 </div>
