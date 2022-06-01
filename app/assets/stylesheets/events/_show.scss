@@ -1,19 +1,33 @@
+.choices{
+  display: grid;
+  @media screen and (max-width: 540px)
+{
+    grid-template-columns: 1fr;
+  }
+  @media screen and ( min-width: 541px) and (max-width: 1080px)
+{
+    grid-template-columns: 1fr 1fr;
+  }
+    @media screen and (min-width: 1081px)
+{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 .movie-detailed-card {
   margin: 30px auto;
 
   color: whitesmoke;
-  width: 330px;
-  height: 200px;
+  max-width: 232px;
+  height: 280px;
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
-  .details{
-
+  .details {
     display: flex;
     // align-items: baseline;
     justify-content: space-between;
   }
   h2,
-  h5 {
+  h6 {
     text-decoration: none;
     color: rgb(87, 62, 10);
     font-family: $bomba;
@@ -29,7 +43,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5px 0 5px 5px;
+    padding: 5px 0 5px 60px;
+    i {
+      font-size: 60px;
+      position: relative;
+      left: -78px;
+      bottom: 51px;
+    }
     a {
       text-decoration: none;
     }
@@ -37,29 +57,27 @@
 
   .event-poster {
     img {
-      height: 200px;
+      height: 280px;
       border-radius: 0 15px 15px 0;
+      margin-left: -100px;
     }
   }
   .vote-logo {
     position: relative;
-  right: -308px;
-    bottom: 96px;
-
+    left: -17px;
+    bottom: 91px;
     height: 50px;
     width: 50px;
     i {
-      color: #DDAC25;
-
+      color: #ddac25;
 
       text-align: center;
-      font-size: 70px;
+      font-size: 60px;
       font-weight: 1000;
     }
-
   }
-  a.trailer_url{
-    color: #DDAC25;
+  a.trailer_url {
+    color: #ddac25;
     font-family: $bomba;
   }
 }

@@ -1,5 +1,5 @@
 <div class="intro_top">
-  <div class=" img-intro">
+  <div class="img-intro">
   </div>
   <div class="connect-form">
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -13,7 +13,10 @@
                 required: true,
                 label: false,
                 input_html: { autocomplete: "current-password",class: 'input_field' } %>
-        <%= f.input :remember_me, label:'Se souvenir de moi', as: :boolean if devise_mapping.rememberable? %>
+        <%= f.input :remember_me,
+        label:'Se souvenir de moi',
+        class: 'remember-me',
+        as: :boolean if devise_mapping.rememberable? %>
         <div class="form-actions">
           <%= f.button :submit, "Connexion",class: 'submit-btn' %>
         </div>

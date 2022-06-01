@@ -17,8 +17,18 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
   </head>
   <body>
-    <%# <%= render 'shared/navbar' %> %>
-    <%= render 'shared/flashes' %>
+    <%# <%= render 'shared/navbar' %>
+    <%# <%= render 'shared/flashes' %> %>
     <%= yield %>
+    <%unless current_user.nil?  %>
+      <div class="management">
+        <%= link_to events_path do%>
+          <i class="fa-solid fa-list"></i>
+        <% end %>
+        <%= link_to destroy_user_session_path, method: :delete do%>
+          <i class="fa-solid fa-right-from-bracket"></i>
+        <% end %>
+      </div>
+    <% end %>
   </body>
 </html>
