@@ -24,16 +24,19 @@
       </div>
     <% end %>
   </div>
-<div class="search-bar">
-  <%= simple_form_for :search, url: root_path, method: :get do |f| %>
-    <div class="search-form-control form-group">
-      <input class="form-control string required" value="Titre à ajouter" onFocus="this.value=''"  type="text" name="search[query]" id="search_query" />
-      <button name="button" type="submit" class="btn btn-flat">
-        <i class="fas fa-search"></i>
-      </button>
+  <div class="search-bar" data-controller= 'movie-search'  >
+    <form>
+      <div class="search-form-control form-group">
+        <input class="form-control string required" value='Titre' onClick="this.value=''"  type="text" name="search[query]" id="search_query" data-movie-search-target='query' />
+        <div class="btn btn-flat mb-4" data-action ='click->movie-search#display_results'>
+          <i class="fas fa-search" ></i>
+        </div>
+      </div>
+    <form>
+    <div class="search-results" data-movie-search-target='results'>
+    <a href=""></a>
     </div>
-  <% end %>
-</div>
+  </div>
 </div>
 <div class="footer">
 </div>

@@ -86,13 +86,18 @@
   max-width: 230px;
 
   .btn {
+    i{
+      margin-top: 4px;
+      font-size: 25px;
+    }
   }
   input {
-    border-radius: 0 15px 15px 0;
+    border-radius: 5px 15px 15px 5px;
   }
 
   .search-form-control {
     position: relative;
+    margin-bottom: 25px;
   }
 
   .search-form-control .btn {
@@ -103,7 +108,7 @@
       right: -4px;
     }
     @media screen and (min-width: 541px) {
-      right: -72px;
+      right: -21px;
     }
 
     background-color: red !important;
