@@ -5,8 +5,8 @@
   padding: 15px;
 
   .img-intro {
-    @media screen and (max-width: 540px)  {
-      // margin-bottom: 5px;
+    @media screen and (max-width: 540px) {
+      margin-bottom: 5px;
       width: 180px;
       height: 200px;
     }
@@ -55,7 +55,6 @@
     border-radius: 15px;
     padding: 8px 14px;
     font-size: 20px;
-
   }
 }
 .mentions {
@@ -66,11 +65,15 @@
   bottom: 0;
   color: bisque;
   text-align: center;
-  h2{
+  h2 {
+    img {
+        height: 2rem;
+      }
     @media screen and (max-width: 541px) {
-
       font-size: 6vw !important;
+      img {
+        height: 6vw !important;
+      }
     }
   }
-
 }
