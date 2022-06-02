@@ -11,7 +11,9 @@
           <h5> <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date, format: :long, locale: "fr") %></h5>
         </div>
         <div class='event-poster right'>
+        <% unless event.movies.empty?%>
           <%= image_tag event.movies.sample.poster_url %>
+          <% end %>
         </div>
       </div>
     <% end %>
