@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = ["query", "results"]
+  static targets = ["query", "results", "add_movie"]
 
   connect() {
     console.log('results conntecté')
@@ -37,22 +37,27 @@ else
       data.results.forEach((result) => {
         const movieTag =
           `<li class="m-3">
-              <img src="https://image.tmdb.org/t/p/w300${result.poster_path}" alt="" width="230" data-action ='click->movie-search#add_movie'
-              info={  title: ${result.title},
-                      poster_url: https://image.tmdb.org/t/p/w300${result.poster_path},
-                      trailer_url:,
-                      year: ${result.release_date},
-                      tmdb_id: ${result.id},
+              <img src= https://image.tmdb.org/t/p/w300${result.poster_path} alt="" width="230"
+               data-action ="click->movie-search#add_movie" data-movie-search-target='add_movie'
+              info="{  title: '${result.title}',
+                      tmdb_poster_url: '${result.poster_path}',
+                      trailer_url: '',
+                      year: '${result.release_date}',
+                      tmdb_id: ${result.id}',
                       tmdb_genre_id : ${result.genre_ids}
-                    }>
+                    }">
           </li>`
         this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
       })
     }
   }
 
-  add_movie(event) {
-    console.log("add movie")
+  add_movie() {
+    console.log(this.add_movieTarget.getAttribute("info"))
+    // creér un nouveau movie si il n'existe pas (tmdb_id)
+    
+    // creer un nouveau choices avec ce movie
+
   }
 
 }
