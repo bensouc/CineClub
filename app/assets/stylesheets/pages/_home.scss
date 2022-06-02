@@ -5,8 +5,8 @@
   padding: 15px;
 
   .img-intro {
-    @media screen and (max-width: 540px) {
-      margin-bottom: 20px;
+    @media screen and (max-width: 540px)  {
+      // margin-bottom: 5px;
       width: 180px;
       height: 200px;
     }
@@ -66,4 +66,11 @@
   bottom: 0;
   color: bisque;
   text-align: center;
+  h2{
+    @media screen and (max-width: 541px) {
+
+      font-size: 6vw !important;
+    }
+  }
+
 }
