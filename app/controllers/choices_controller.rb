@@ -11,7 +11,7 @@ class ChoicesController < ApplicationController
       @choice.save
       redirect_to event_path(@event), notice: "A voté"
     else
-      redirect_to event_path(@event), notice: "On ne vote qu'une fois :)"
+      redirect_to event_path(@event), notice: "Un vote par film :)"
     end
   end
 
