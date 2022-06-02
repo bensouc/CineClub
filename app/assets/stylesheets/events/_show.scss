@@ -5,9 +5,11 @@
   }
   @media screen and (min-width: 541px) and (max-width: 1080px) {
     grid-template-columns: 1fr 1fr;
+    justify-content: space-around
   }
   @media screen and (min-width: 1081px) {
     grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-around
   }
 }
 .movie-detailed-card {
@@ -129,4 +131,10 @@
     outline: none !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
+}
+//  search result display
+.noresult{
+  text-align: center;
+  width: 200px;
+  color: #ddac25;
 }

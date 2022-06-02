@@ -27,7 +27,7 @@ puts " Session Creation DONE"
 puts " "
 puts " Movie Creation"
 movie1 = Movie.create!(title: "Pulp Fiction", kind: "trhiller", poster_url: "https://m.media-amazon.com/images/I/51Dd09FUNLL._AC_.jpg", trailer_url: "https://www.youtube.com/watch?v=tGpTpVyI_OQ")
-movie2 = Movie.create(title: 'Aliens', kind: 'flippete', poster_url:"https://m.media-amazon.com/images/I/41unQZ94ZtL._AC_.jpg", trailer_url:"https://www.youtube.com/watch?v=oSeQQlaCZgU")
+movie2 = Movie.create!(title: 'Aliens', kind: 'flippete', poster_url:"https://m.media-amazon.com/images/I/41unQZ94ZtL._AC_.jpg", trailer_url:"https://www.youtube.com/watch?v=oSeQQlaCZgU")
 puts " End of Movie Creation"
 puts " "
 puts " Choice Creation"
