@@ -20,7 +20,7 @@
   </head>
   <body>
     <%# <%= render 'shared/navbar' %>
-    <%# <%= render 'shared/flashes' %> %>
+    <%= render "shared/flashes" %>
     <%= yield %>
     <%unless current_user.nil?  %>
       <div class="management">

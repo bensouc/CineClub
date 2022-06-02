@@ -10,8 +10,10 @@
       <div class=movie-detailed-card>
         <div class="details">
           <div class="left">
-            <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
-              <% unless choice.movie.trailer_url.nil? %>
+            <% if choice.movie.trailer_url.nil? %>
+              <div class="empty"></div>
+            <% else %>
+              <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
                 <i class="fa-solid fa-film"></i>
               <% end %>
             <% end %>
@@ -21,8 +23,8 @@
           </div>
         </div>
         <div class="vote-logo">
-        <%=link_to event_vote_path(@event, choice), method: :post do%>
-          <i class="fa-solid fa-circle-plus"></i>
+          <%=link_to event_vote_path(@event, choice), method: :post do%>
+            <i class="fa-solid fa-circle-plus"></i>
           <% end %>
         </div>
         <div class="vote-score">

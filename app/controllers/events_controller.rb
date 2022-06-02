@@ -6,7 +6,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @choices = @event.choices.order(ranking: :desc)
     @movies = @event.movies
-  end
+    end
 
   def add_movie
     @event = Event.find(params[:id])
