@@ -21,7 +21,7 @@ export default class extends Controller {
   insertMovies(data) {
     data.results.forEach((result) => {
       const movieTag =
-      `<li class="list-group-item border-0">
+      `<li class="mb-3">
       <img src="https://image.tmdb.org/t/p/w300${result.poster_path}" alt="" width="230" data-action ='click->movie-search#add_movie'>
       </li>`
       this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
