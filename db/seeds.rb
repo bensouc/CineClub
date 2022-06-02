@@ -17,12 +17,21 @@ Event.destroy_all
 puts " data Destroyed"
 puts " "
 puts "###########################"
-user1 = User.create(email:'ben@gmail.com', password:'secret')
+user1 = User.create(email:'ben@mail.com', password:'secret')
+user2 = User.create(email:'monna@mail.com', password:'secret')
+user3 = User.create(email:'manu@mail.com', password:'secret')
+user4 = User.create(email:'dim@mail.com', password:'secret')
+user5 = User.create(email:'clem@mail.com', password:'secret')
+user6 = User.create(email:'gg@mail.com', password:'secret')
+user7= User.create(email:'laeti@mail.com', password:'secret')
+user8 = User.create(email: "anael@mail.com", password: "secret")
+user9 = User.create(email:'guiguin@mail.com', password:'secret')
 puts " User ben@gmail.com created"
 puts " Data Creation"
 puts " Session Creation"
 session1 = Event.create(name: "first session", date: "24/05/2022")
-# session2 = Session.create(name: 'deuxieme', date: '07/06/1980')
+# session1 = Event.create(name: "first session", date: "24/05/2022")
+session2 = Event.create(name: 'La deuxieme!!', date: '07/06/2022')
 puts " Session Creation DONE"
 puts " "
 puts " Movie Creation"

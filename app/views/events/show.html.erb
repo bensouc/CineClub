@@ -11,7 +11,9 @@
         <div class="details">
           <div class="left">
             <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
-              <i class="fa-solid fa-film"></i>
+              <% unless choice.movie.trailer_url.nil? %>
+                <i class="fa-solid fa-film"></i>
+              <% end %>
             <% end %>
           </div>
           <div class='event-poster'>
@@ -19,7 +21,12 @@
           </div>
         </div>
         <div class="vote-logo">
+        <%=link_to event_vote_path(@event, choice), method: :post do%>
           <i class="fa-solid fa-circle-plus"></i>
+          <% end %>
+        </div>
+        <div class="vote-score">
+          <%=choice.ranking%>
         </div>
       </div>
     <% end %>
@@ -27,16 +34,18 @@
   <div class="search-bar" data-controller= 'movie-search'  >
     <form>
       <div class="search-form-control form-group">
-        <input class="form-control string required" value='Titre' onClick="this.value=''"  type="text" name="search[query]" id="search_query" data-movie-search-target='query' />
+        <input class="form-control string required" value='Titre' onClick="this.value=''"  type="text"
+              data-movie-search-target='query' data-action ='enter->movie-search#display_results' />
         <div class="btn btn-flat mb-4" data-action ='click->movie-search#display_results'>
           <i class="fas fa-search" ></i>
         </div>
       </div>
-      <form>
-        <div class="choices" data-movie-search-target='results'>
-          <%# HERE comes ajax and serach result in movie_search_controller.js %>
-        </div>
-      </div>
+    </form>
+    <%= link_to "truc", event_path(@event), method: :post%>
+    <div class="choices" data-movie-search-target='results'>
+      <%# HERE comes ajax and serach result in movie_search_controller.js %>
     </div>
-    <div class="footer">
-    </div>
+  </div>
+</div>
+<div class="footer">
+</div>

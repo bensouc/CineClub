@@ -14,3 +14,6 @@ ActiveStorage.start()
 
 import "controllers"
 import "bootstrap"
+import * as Routes from '../routes';
+window.Routes = Routes;
+// alert(Routes.post_path(1))
