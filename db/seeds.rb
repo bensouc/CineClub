@@ -25,7 +25,8 @@ user5 = User.create(email:'clem@mail.com', password:'secret')
 user6 = User.create(email:'gg@mail.com', password:'secret')
 user7= User.create(email:'laeti@mail.com', password:'secret')
 user8 = User.create(email: "anael@mail.com", password: "secret")
-user9 = User.create(email:'guiguin@mail.com', password:'secret')
+user9 = User.create(email: "guigui@mail.com", password: "secret")
+user10 = User.create(email:'marie@mail.com', password:'secret')
 puts " User ben@gmail.com created"
 puts " Data Creation"
 puts " Session Creation"
