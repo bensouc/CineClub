@@ -12,7 +12,7 @@
         </div>
         <div class='event-poster right'>
         <% unless event.movies.empty?%>
-          <%= image_tag event.movies.sample.poster_url %>
+          <%= image_tag event.choices.order(ranking: :desc).first.movie.poster_url %>
           <% end %>
         </div>
       </div>
