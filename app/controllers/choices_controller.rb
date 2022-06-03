@@ -20,6 +20,8 @@ class ChoicesController < ApplicationController
     @choice = Choice.find(params[:id])
     @vote = Vote.where(user: current_user, choice: @choice).first
     @vote.destroy
+    @choice.ranking = @choice.votes.count
+    @choice.save
     redirect_to event_path(@event), notice: "Vote rétiré"
   end
 
