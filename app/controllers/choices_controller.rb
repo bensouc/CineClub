@@ -23,6 +23,13 @@ class ChoicesController < ApplicationController
     redirect_to event_path(@event), notice: "Vote rétiré"
   end
 
+  def destroy
+    @choice = Choice.find(params[:id])
+    @event = @choice.event
+    @choice.destroy
+    redirect_to event_path(@event), notice: "Proposition rétirée"
+  end
+
   private
 
   def params_event

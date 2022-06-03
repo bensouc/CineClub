@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   end
   post '/events/:id', to: 'events#add_movie', as: 'add_movie'
 
+  resources :choices, only: [:destroy]
+
 
 end

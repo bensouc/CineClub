@@ -40,7 +40,12 @@
           <% end %>
         </div>
         <div class="choice-owner">
-Film proposé par <%=current_user.email.split('@').first.capitalize%>
+          Film proposé par <%=current_user.email.split('@').first.capitalize%>
+          <% if choice.user == current_user %>
+            <%= link_to choice_path(choice), method: :delete, data: { confirm: "Voulez vous retirer ce film?" } do%>
+              <i class="fa-solid fa-trash ms-2"></i>
+            <% end %>
+          <% end %>
         </div>
       </div>
     <% end %>
