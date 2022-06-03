@@ -5,11 +5,11 @@
   }
   @media screen and (min-width: 541px) and (max-width: 1080px) {
     grid-template-columns: 1fr 1fr;
-    justify-content: space-around
+    justify-content: space-around;
   }
   @media screen and (min-width: 1081px) {
     grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-around
+    justify-content: space-around;
   }
 }
 .movie-detailed-card {
@@ -46,10 +46,10 @@
     i {
       font-size: 60px;
       position: relative;
-   left: -85px;
-    bottom: 75px;
+      left: -78px;
+      bottom: 75px;
     }
-    .empty{
+    .empty {
       height: 60px;
       width: 60px;
     }
@@ -67,7 +67,7 @@
   }
   .vote-logo {
     position: relative;
-  left: -26px;
+    left: -19px;
     bottom: 91px;
     height: 50px;
     width: 50px;
@@ -85,39 +85,44 @@
   }
 }
 
-.vote-score{
+.vote-score {
   font-family: $bomba;
   color: red;
   font-size: 70px;
   position: relative;
-    left: 178px;
-    bottom: 350px;
-    height: 50px;
-    width: 50px;
+  left: 178px;
+  bottom: 350px;
+  height: 50px;
+  width: 50px;
 }
 
-.unvote-logo{
-    position: relative;
-    left: 178px;
-    bottom: 191px;
-    height: 50px;
-    width: 50px;
-    i {
-      color: #ddac25;
+.unvote-logo {
+  position: relative;
+  left: 178px;
+  bottom: 191px;
+  height: 50px;
+  width: 50px;
+  i {
+    color: #ddac25;
 
-      text-align: center;
-      font-size: 60px;
-      font-weight: 1000;
-    }
+    text-align: center;
+    font-size: 60px;
+    font-weight: 1000;
+  }
 }
 
-.choice-owner{
+.choice-owner {
   width: 230px;
   color: #ddac25;
   font-size: 15px;
   text-align: center;
   position: relative;
   bottom: 144px;
+  i {
+    color: #ffc65ac7;
+    margin: 10px;
+    font-size: 30px;
+  }
 }
 // search css
 .search-bar {
@@ -126,8 +131,8 @@
   max-width: 230px;
 
   .btn {
-    i{
-      margin-top: 4px;
+    i {
+      margin-top: 3px;
       font-size: 25px;
     }
   }
@@ -138,6 +143,7 @@
   .search-form-control {
     position: relative;
     margin-bottom: 25px;
+    margin-top: 20px;
   }
 
   .search-form-control .btn {
@@ -171,7 +177,7 @@
   }
 }
 //  search result display
-.noresult{
+.noresult {
   text-align: center;
   width: 200px;
   color: #ddac25;
