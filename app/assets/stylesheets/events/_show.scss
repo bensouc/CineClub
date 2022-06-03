@@ -1,19 +1,30 @@
 .choices {
   display: grid;
+  margin: 0 auto;
   @media screen and (max-width: 540px) {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
   @media screen and (min-width: 541px) and (max-width: 1080px) {
     grid-template-columns: 1fr 1fr;
     justify-content: space-around;
+    gap: 40px;
   }
   @media screen and (min-width: 1081px) {
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-around;
+    gap: 40px;
   }
 }
+
+.cardandoanwer {
+  max-width: 232px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
 .movie-detailed-card {
-  margin: 30px auto;
+  margin: 30px auto 0 auto;
 
   color: whitesmoke;
   max-width: 232px;
@@ -43,6 +54,7 @@
     flex-direction: column;
     justify-content: space-around;
     padding: 5px 0 5px 60px;
+
     i {
       font-size: 60px;
       position: relative;
@@ -112,16 +124,30 @@
 }
 
 .choice-owner {
-  width: 230px;
-  color: #ddac25;
-  font-size: 15px;
-  text-align: center;
-  position: relative;
-  bottom: 144px;
-  i {
-    color: #ffc65ac7;
-    margin: 10px;
-    font-size: 30px;
+  width: 167px;
+  height: 33px;
+  padding-top: 10px;
+  margin: 0 auto;
+  padding-bottom: 18px;
+  border-bottom: thin solid white;
+  border-right: thin solid white;
+  border-left: thin solid white;
+  border-radius: 0 0 15px 15px;
+  background-color: white;
+  display: flex; /* contexte sur le parent */
+  flex-direction: column; /* direction d'affichage verticale */
+  justify-content: center; /* alignement vertical */
+  .owner-name {
+    margin: 9px 0 0 0;
+    font-size: 2vh;
+    color: #ddac25;
+    font-weight: bolder;
+    text-align: center;
+    i {
+      color: #ffc65ac7;
+
+      font-size: 2.5vh;
+    }
   }
 }
 // search css

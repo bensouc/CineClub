@@ -7,45 +7,49 @@
   </div>
   <div class="choices ">
     <%@choices.each do |choice|%>
-      <div class=movie-detailed-card>
-        <div class="details">
-          <div class="left">
-            <% if choice.movie.trailer_url.nil? %>
-              <div class="empty"></div>
-            <% else %>
-              <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
-                <i class="fa-solid fa-film"></i>
+      <div class="cardandoanwer">
+        <div class=movie-detailed-card>
+          <div class="details">
+            <div class="left">
+              <% if choice.movie.trailer_url.nil? %>
+                <div class="empty"></div>
+              <% else %>
+                <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
+                  <i class="fa-solid fa-film"></i>
+                <% end %>
+              <% end %>
+            </div>
+            <div class='event-poster'>
+              <%= image_tag choice.movie.poster_url %>
+            </div>
+          </div>
+          <div class="vote-logo">
+            <% if @votes_user.where(choice: choice, user: current_user).first.nil? %>
+              <%=link_to event_vote_path(@event, choice), method: :post do%>
+                <i class="fa-solid fa-circle-plus"></i>
               <% end %>
             <% end %>
           </div>
-          <div class='event-poster'>
-            <%= image_tag choice.movie.poster_url %>
+          <div class="vote-score">
+            <%=choice.ranking%>
+          </div>
+          <div class="unvote-logo">
+            <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
+              <%= link_to event_unvote_path(@event, choice), method: :delete, data: { confirm: "Voulez vous retirer votre vote?" } do%>
+                <i class="fa-solid fa-circle-minus"></i>
+              <% end %>
+            <% end %>
           </div>
         </div>
-        <div class="vote-logo">
-          <% if @votes_user.where(choice: choice, user: current_user).first.nil? %>
-            <%=link_to event_vote_path(@event, choice), method: :post do%>
-              <i class="fa-solid fa-circle-plus"></i>
-            <% end %>
-          <% end %>
-        </div>
-        <div class="vote-score">
-          <%=choice.ranking%>
-        </div>
-        <div class="unvote-logo">
-          <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
-            <%= link_to event_unvote_path(@event, choice), method: :delete, data: { confirm: "Voulez vous retirer votre vote?" } do%>
-              <i class="fa-solid fa-circle-minus"></i>
-            <% end %>
-          <% end %>
-        </div>
         <div class="choice-owner">
-          Film proposé par <%=choice.user.email.split('@').first.capitalize%>
-          <% if choice.user == current_user %>
-            <%= link_to choice_path(choice), method: :delete, data: { confirm: "Voulez vous retirer ce film?" } do%>
-              <i class="fa-solid fa-trash ms-2"></i>
+          <div class="owner-name">
+            Proposé par <%=choice.user.email.split('@').first.capitalize%>
+            <% if choice.user == current_user %>
+              <%= link_to choice_path(choice), method: :delete, data: { confirm: "Voulez vous retirer ce film?" } do%>
+                <i class="fa-solid fa-trash ms-2"></i>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
       </div>
     <% end %>
