@@ -9,9 +9,9 @@ class ChoicesController < ApplicationController
       @choice.ranking = @choice.votes.count
 
       @choice.save
-      redirect_to event_path(@event), notice: "A voté"
+      redirect_to event_path(@event)
     else
-      redirect_to event_path(@event), notice: "Un vote par film :)"
+      redirect_to event_path(@event)
     end
   end
 
@@ -22,14 +22,14 @@ class ChoicesController < ApplicationController
     @vote.destroy
     @choice.ranking = @choice.votes.count
     @choice.save
-    redirect_to event_path(@event), notice: "Vote rétiré"
+    redirect_to event_path(@event)
   end
 
   def destroy
     @choice = Choice.find(params[:id])
     @event = @choice.event
     @choice.destroy
-    redirect_to event_path(@event), notice: "Proposition rétirée"
+    redirect_to event_path(@event)
   end
 
   private

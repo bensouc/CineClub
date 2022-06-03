@@ -34,7 +34,7 @@
         </div>
         <div class="unvote-logo">
           <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
-            <%= link_to event_unvote_path(@event, choice), method: :delete do%>
+            <%= link_to event_unvote_path(@event, choice), method: :delete, data: { confirm: "Voulez vous retirer votre vote?" } do%>
               <i class="fa-solid fa-circle-minus"></i>
             <% end %>
           <% end %>
