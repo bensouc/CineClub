@@ -1,19 +1,18 @@
 .choices {
   display: grid;
   margin: 0 auto;
+  gap: 60px;
+
   @media screen and (max-width: 540px) {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
   @media screen and (min-width: 541px) and (max-width: 1080px) {
     grid-template-columns: 1fr 1fr;
     justify-content: space-around;
-    gap: 40px;
   }
   @media screen and (min-width: 1081px) {
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-around;
-    gap: 40px;
   }
 }
 
