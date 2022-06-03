@@ -15,6 +15,14 @@ class ChoicesController < ApplicationController
     end
   end
 
+  def unvote
+    @event = Event.find(params_event)
+    @choice = Choice.find(params[:id])
+    @vote = Vote.where(user: current_user, choice: @choice).first
+    @vote.destroy
+    redirect_to event_path(@event), notice: "Vote rétiré"
+  end
+
   private
 
   def params_event

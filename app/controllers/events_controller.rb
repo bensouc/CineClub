@@ -6,15 +6,16 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @choices = @event.choices.order(ranking: :desc)
     @movies = @event.movies
-    end
+    @votes_user = Vote.where(user: current_user)
+  end
 
   def add_movie
     @event = Event.find(params[:id])
     movie =  Movie.find_or_create_movie(params_movie)
     Choice.create(movie: movie, user: current_user, event: @event, ranking: 0)
     redirect_to event_path(@event)
-
   end
+
 
   private
 
