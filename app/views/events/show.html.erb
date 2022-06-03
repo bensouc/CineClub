@@ -23,12 +23,24 @@
           </div>
         </div>
         <div class="vote-logo">
-          <%=link_to event_vote_path(@event, choice), method: :post do%>
-            <i class="fa-solid fa-circle-plus"></i>
+          <% if @votes_user.where(choice: choice, user: current_user).first.nil? %>
+            <%=link_to event_vote_path(@event, choice), method: :post do%>
+              <i class="fa-solid fa-circle-plus"></i>
+            <% end %>
           <% end %>
         </div>
         <div class="vote-score">
           <%=choice.ranking%>
+        </div>
+        <div class="unvote-logo">
+          <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
+            <%= link_to event_unvote_path(@event, choice), method: :delete do%>
+              <i class="fa-solid fa-circle-minus"></i>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="choice-owner">
+Film proposé par <%=current_user.email.split('@').first.capitalize%>
         </div>
       </div>
     <% end %>
