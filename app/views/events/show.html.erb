@@ -1,15 +1,16 @@
 <div class="d-flex flex-column p-4">
-  <div class="title">
+
+  <div class="title"  >
     <%unless @event.name.nil?  %>
       <h1><%=@event.name%></h1>
     <% end %>
     <h1><%=I18n.l(@event.date, format: :long, locale: "fr")%></h1>
   </div>
-  <div class="choices ">
+  <div class="choices" >
     <%@choices.each do |choice|%>
-      <div class="cardandoanwer">
-        <div class=movie-detailed-card>
-          <div class="details">
+      <div class="cardandoanwer" >
+        <div class='movie-detailed-card' data-controller="display-names" >
+          <div class="details" >
             <div class="left">
               <% if choice.movie.trailer_url.nil? %>
                 <div class="empty"></div>
@@ -30,8 +31,19 @@
               <% end %>
             <% end %>
           </div>
-          <div class="vote-score">
+          <div class="vote-score" data-action='click->display-names#displayVotes'>
             <%=choice.ranking%>
+            <div class="show-votes d-none" data-display-names-target='output' data-action='click->display-names#hideVotes'>
+                <h4>Votant<%= "s" if choice.votes.count > 1  %> :</h4>
+                <% choice.votes.each do |vote|%>
+                  <h5>
+                    <li>
+                      <%= vote.user.email.split('@').first.capitalize %>
+                    </li>
+                  </h5>
+                <% end %>
+
+            </div>
           </div>
           <div class="unvote-logo">
             <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>

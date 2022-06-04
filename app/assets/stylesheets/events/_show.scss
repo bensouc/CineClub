@@ -98,13 +98,28 @@
 
 .vote-score {
   font-family: $bomba;
-  color: red;
+  color: #ff0000be;
   font-size: 70px;
   position: relative;
   left: 178px;
   bottom: 350px;
   height: 50px;
   width: 50px;
+}
+
+.show-votes {
+position: absolute;
+    left: -172px;
+    bottom: -158px;
+    width: 192px;
+    background-color: #250d12a8;
+    border-radius: 15px;
+    padding: 15px 15px 15px 25px;
+    h4,h5{
+      font-family: $body-font;
+      font-weight: bold;
+      color: #ffffff;
+    }
 }
 
 .unvote-logo {
@@ -140,7 +155,6 @@
     margin: 9px 0 0 0;
     font-size: 2vh;
     color: #ddac25;
-    font-weight: bolder;
     text-align: center;
     i {
       color: #ffc65ac7;
@@ -182,7 +196,7 @@
       right: -21px;
     }
 
-    background-color: red !important;
+    background-color: rgb(211, 38, 38) !important;
     color: black;
     padding: 10px;
     height: 3.5rem;
