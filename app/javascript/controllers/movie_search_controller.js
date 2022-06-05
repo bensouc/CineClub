@@ -13,10 +13,10 @@ export default class extends Controller {
   display_results(event) {
     event.preventDefault() // <-- to prevent <form>'s native behaviour
     this.resultsTarget.innerHTML = ""
-    // console.log(process.env)
+
     const query = this.queryTarget.value
     const api_key = process.env.TMDB_API_KEY
-    console.log(api_key)
+
     if (query == '' || query == 'Titre') {
       const movieTag =
         `<div class="noresult">
