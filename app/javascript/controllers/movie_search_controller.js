@@ -1,19 +1,22 @@
 import { Controller } from "stimulus"
+
 import * as Routes from 'routes';
 
 export default class extends Controller {
   static targets = ["query", "results", "add_movie"]
 
-  connect() {
+  // connect() {
 
-    console.log("searc movie controller connected")
-  }
+  //   console.log("searc movie controller connected")
+  // }
 
   display_results(event) {
     event.preventDefault() // <-- to prevent <form>'s native behaviour
     this.resultsTarget.innerHTML = ""
-    console.log("query sent")
+    // console.log(process.env)
     const query = this.queryTarget.value
+    const api_key = process.env.TMDB_API_KEY
+    console.log(api_key)
     if (query == '' || query == 'Titre') {
       const movieTag =
         `<div class="noresult">
@@ -22,10 +25,12 @@ export default class extends Controller {
       this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
     }
     else {
-      fetch(`https://api.themoviedb.org/3/search/movie?api_key=5d25d045ccb74424de93b9f3878f1b6c&query=${query}&language=fr`)
+      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&language=fr`)
+      // 5d25d045ccb74424de93b9f3878f1b6c
         .then(response => response.json())
         .then(data => this.insertMovies(data))
-    }
+      }
+      document.getElementById("search-bar").scrollIntoView();
   }
 
   insertMovies(data) {

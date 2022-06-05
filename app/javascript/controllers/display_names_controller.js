@@ -7,11 +7,12 @@ import { Controller } from "stimulus"
       console.log('hello')
     }
     displayVotes() {
-      console.log(this)
+      console.log("display")
       this.votesTarget.classList.remove("d-none")
 
     }
     hideVotes() {
+      console.log("remove")
       this.votesTarget.classList.add("d-none")
     }
   }

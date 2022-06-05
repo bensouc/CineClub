@@ -44,10 +44,10 @@
   a {
     text-decoration: none;
   }
-  &:hover {
-    transition: 0.3s;
-    transform: scale(1.05);
-  }
+  // &:hover {
+  //   transition: 0.3s;
+  //   transform: scale(1.05);
+  // }
   .left {
     display: flex;
     flex-direction: column;
@@ -108,18 +108,20 @@
 }
 
 .show-votes {
-position: absolute;
-    left: -172px;
-    bottom: -158px;
-    width: 192px;
-    background-color: #250d12a8;
-    border-radius: 15px;
-    padding: 15px 15px 15px 25px;
-    h4,h5{
-      font-family: $body-font;
-      font-weight: bold;
-      color: #ffffff;
-    }
+  position: absolute;
+    left: -171px;
+    top: 28px;
+    width: 200px;
+  background-color: #250d12a8;
+  border-radius: 15px;
+  padding: 15px 15px 15px 25px;
+  h4,
+  h5 {
+    font-family: $body-font;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 17px;
+  }
 }
 
 .unvote-logo {
