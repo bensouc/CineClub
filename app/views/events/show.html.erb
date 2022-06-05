@@ -35,6 +35,7 @@
               <%=choice.ranking%>
             </div>
           <div class="show-votes d-none"  data-display-names-target="votes" data-action='click->display-names#hideVotes'>
+            <i class="fa-solid fa-circle-xmark"></i>
             <h4>Votant<%= "s" if choice.votes.count > 1  %> :</h4>
             <% choice.votes.each do |vote|%>
               <h5>
