@@ -115,7 +115,8 @@ class Movie < ApplicationRecord
     if json["results"] == []
       return nil
     else
-      return json["results"].first["key"]
+      # find(key => object[key] === value)
+      return json["results"].select{ |hash| hash["type"] == "Trailer" }.first["key"]
     end
   end
 end
