@@ -26,7 +26,6 @@ export default class extends Controller {
     }
     else {
       fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&language=fr`)
-      // 5d25d045ccb74424de93b9f3878f1b6c
         .then(response => response.json())
         .then(data => this.insertMovies(data))
       }

@@ -108,15 +108,11 @@ class Movie < ApplicationRecord
   end
 
   def self.json_trailers(tmdb_id)
-    url = "http://api.themoviedb.org/3/movie/#{tmdb_id}/videos?api_key=5d25d045ccb74424de93b9f3878f1b6c"
-    # url = "http://api.themoviedb.org/3/movie/#{tmdb_id}/videos?api_key=#{Movie::TMDB_API_KEY}"
+    url = "http://api.themoviedb.org/3/movie/#{tmdb_id}/videos?api_key=#{ENV['TMDB_API_KEY']}"
     user_serialized = URI.open(url).read
     json = JSON.parse(user_serialized)
-    if json["results"] == []
-      return nil
-    else
-      # find(key => object[key] === value)
-      return json["results"].select{ |hash| hash["type"] == "Trailer" }.first["key"]
-    end
+    return nil if (json["results"].select { |hash| hash["type"] == "Trailer" }) == []
+
+    return json["results"].select { |hash| hash["type"] == "Trailer" }.first["key"]
   end
 end
