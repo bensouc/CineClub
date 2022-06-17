@@ -6,7 +6,7 @@
     <h1><%=I18n.l(@event.date, format: :long, locale: "fr")%></h1>
   </div>
   <div class="choices" >
-    <%@choices.each do |choice|%>
+    <%@choices.order(ranking: :desc).each do |choice|%>
       <div class="cardandoanwer" >
         <div class='movie-detailed-card' data-controller="display-names" >
           <div class="details" >
