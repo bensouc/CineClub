@@ -11,8 +11,15 @@
           <h5> <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date, format: :long, locale: "fr") %></h5>
         </div>
         <div class='event-poster right'>
-        <% unless event.movies.empty?%>
-          <%= image_tag event.choices.order(ranking: :desc).first.movie.poster_url %>
+          <% unless event.movies.empty?%>
+            <% if event.exequo?%>
+            <div class="double">
+            <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
+            <%= image_tag event.choices.order(ranking: :desc)[1].movie.poster_url, class: 'right' %>
+            </div>
+            <% else %>
+              <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
+            <% end %>
           <% end %>
         </div>
       </div>
