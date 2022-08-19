@@ -1,5 +1,9 @@
 CineClub is a responsive web app for mobile first, dedicated to movie lovers and Cinéclub associates.
-It allows users to select and vote for the next session program.
+It allows users to select and vote for the next Cinéclub session.
+
+Landing Page:
+
+<img src="https://user-images.githubusercontent.com/85955716/172575798-f81da706-f136-4ad3-b109-a65d614ea37f.jpg" width="250">
 
 Powered by [TMDB APIs](https://developers.themoviedb.org/3/getting-started/introduction), Users can look for a movie.
 Results are shown in show page with AJAX
@@ -16,7 +20,4 @@ Users can vote, change their votes, view others votes, remove an added movie :
 <img src="https://user-images.githubusercontent.com/85955716/172582106-7823178f-7729-4dfe-9ad5-bf6698d576fd.jpg" width="250">
 
 
-Landing Page:
 
-
-<img src="https://user-images.githubusercontent.com/85955716/172575798-f81da706-f136-4ad3-b109-a65d614ea37f.jpg" width="250">
