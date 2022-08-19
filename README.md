@@ -7,7 +7,7 @@ Results are shown in show page with AJAX
 
 <img src="https://user-images.githubusercontent.com/85955716/172576872-30d3ed1b-382c-4a05-9903-e964b30cfb63.jpg" width="250">
 
-When added, to an event, movie trailer link is search for using TMDB APi, helping other users in their votes.
+When added, to an event, movie trailer link is searched by using TMDB APi, helping other users in their votes.
 
 <img src="https://user-images.githubusercontent.com/85955716/172577222-c3e3ef8b-92d1-4276-8fc5-02b357516281.jpg" width="250">
 
