@@ -1,28 +1,34 @@
 <div class="d-flex flex-column p-4">
   <div class="title">
-    <h1>Les soirées <br>
-      Ciné Club</h1>
+    <h1>
+      Les soirées <br />
+      Ciné Club
+    </h1>
   </div>
-  <% @events.each do |event|%>
-    <%= link_to event_path(event) do %>
-      <div class="event-card ">
+  <% @events.each do |event|%> <%= link_to event_path(event) do %>
+      <% if event.date < Date.today %>
+        <div class="closed">
+          <p>Terminée</p>
+        </div>
+      <% end %>
+      <div class="event-card">
         <div class="left">
           <h2><%= event.name.capitalize %></h2>
-          <h5> <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date, format: :long, locale: "fr") %></h5>
+          <h5>
+            <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date,
+        format: :long, locale: "fr") %>
+          </h5>
         </div>
-        <div class='event-poster right'>
-          <% unless event.movies.empty?%>
-            <% if event.exequo?%>
-            <div class="double">
-            <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
-            <%= image_tag event.choices.order(ranking: :desc)[1].movie.poster_url, class: 'right' %>
-            </div>
-            <% else %>
-              <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
-            <% end %>
-          <% end %>
+        <div class="event-poster right">
+          <% unless event.movies.empty?%> <% if event.exequo?%>
+              <div class="double">
+                <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
+                <%= image_tag event.choices.order(ranking: :desc)[1].movie.poster_url,
+        class: 'right' %>
+              </div>
+            <% else %> <%= image_tag event.choices.order(ranking:
+      :desc)[0].movie.poster_url %> <% end %> <% end %>
         </div>
       </div>
-    <% end %>
-  <% end %>
+    <% end %> <% end %>
 </div>
