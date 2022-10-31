@@ -1,7 +1,9 @@
 @import "show";
 
 // SCSS for the index page of event conrtoller
-
+a{
+  margin-bottom: 30px;
+}
 .title {
   text-align: center;
   color: rgb(221, 172, 37);
@@ -51,6 +53,7 @@
   }
   a {
     text-decoration: none;
+
   }
   &:hover {
     transition: 0.3s;
