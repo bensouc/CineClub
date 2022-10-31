@@ -30,6 +30,7 @@ class EventsController < ApplicationController
       poster_url: "https://image.tmdb.org/t/p/w300#{params.require(:tmdb_poster_url)}",
       tmdb_id: params.require(:tmdb_id),
       year: params.require(:year),
+      overview: params.require(:tmdb_overview)
     }
   end
 end
