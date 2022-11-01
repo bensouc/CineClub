@@ -10,17 +10,38 @@
       <div class="cardandoanwer" >
         <div class='movie-detailed-card' data-controller="display-names" >
           <div class="details" >
-            <div class="left">
-              <% if choice.movie.trailer_url.nil? %>
-                <div class="empty"></div>
-              <% else %>
-                <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
-                  <i class="fa-solid fa-film"></i>
+            <!-- Button trigger modal -->
+            <button type="button" class="details" data-bs-toggle="modal" data-bs-target="#staticBackdrop-<%=choice.id%>">
+              <div class="left">
+                <% if choice.movie.trailer_url.nil? %>
+                  <div class="empty"></div>
+                <% else %>
+                  <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
+                    <i class="fa-solid fa-film"></i>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </div>
-            <div class='event-poster'>
-              <%= image_tag choice.movie.poster_url %>
+              </div>
+              <div class='event-poster'>
+                <%= image_tag choice.movie.poster_url %>
+              </div>
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop-<%=choice.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop-<%=choice.id%>Label" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdrop-<%=choice.id%>Label">Description : <%=choice.movie.title%></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <%= choice.movie.overview %>
+                  </div>
+                  <%# <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                  </div> %>
+                </div>
+              </div>
             </div>
           </div>
           <div class="vote-logo">
@@ -34,17 +55,17 @@
             <div class="choice-ranking-display" <%= "data-action=click->display-names#displayVotes" if choice.ranking > 0 %>>
               <%=choice.ranking%>
             </div>
-          <div class="show-votes d-none"  data-display-names-target="votes" data-action='click->display-names#hideVotes'>
-            <i class="fa-solid fa-circle-xmark"></i>
-            <h4>Votant<%= "s" if choice.votes.count > 1  %> :</h4>
-            <% choice.votes.each do |vote|%>
-              <h5>
-                <li>
-                  <%= vote.user.email.split('@').first.capitalize %>
-                </li>
-              </h5>
-            <% end %>
-          </div>
+            <div class="show-votes d-none"  data-display-names-target="votes" data-action='click->display-names#hideVotes'>
+              <i class="fa-solid fa-circle-xmark"></i>
+              <h4>Votant<%= "s" if choice.votes.count > 1  %> :</h4>
+              <% choice.votes.each do |vote|%>
+                <h5>
+                  <li>
+                    <%= vote.user.email.split('@').first.capitalize %>
+                  </li>
+                </h5>
+              <% end %>
+            </div>
           </div>
           <div class="unvote-logo">
             <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
