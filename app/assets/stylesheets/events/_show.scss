@@ -26,7 +26,7 @@
   margin: 30px auto 0 auto;
 
   color: whitesmoke;
-  max-width: 232px;
+  max-width: 213px;
   height: 280px;
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
@@ -34,6 +34,8 @@
     display: flex;
     // align-items: baseline;
     justify-content: space-between;
+    background-color: transparent;
+    border: transparent;
   }
   h2,
   h6 {
@@ -49,16 +51,21 @@
   //   transform: scale(1.05);
   // }
   .left {
-    display: flex;
+   display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 5px 0 5px 60px;
+    background-color: white;
+    height: 100%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    border-color: transparent;
 
     i {
       font-size: 60px;
       position: relative;
       left: -78px;
-      bottom: 75px;
+      bottom: 65px;
     }
     .empty {
       height: 60px;
@@ -69,6 +76,11 @@
     }
   }
 
+  .modal-content{
+    color: #ddac25;
+    border-radius: 15px;
+    margin-top: 23%;
+  }
   .event-poster {
     img {
       height: 280px;

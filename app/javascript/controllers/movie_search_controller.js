@@ -51,7 +51,7 @@ export default class extends Controller {
           `<li class="m-3">
             <a rel="nofollow" data-method="post" href="/events/${clean_event_id}?title=${result.title}
 &tmdb_poster_url=${result.poster_path}&trailer_url=&year=${result.release_date}
-&tmdb_id=${result.id}&tmdb_genre_id=${result.genre_ids}">
+&tmdb_id=${result.id}&tmdb_genre_id=${result.genre_ids}&tmdb_overview=${result.overview}">
                 <img src= https://image.tmdb.org/t/p/w300${result.poster_path} alt="" width="230"
                 data-action ="click->movie-search#add_movie" data-movie-search-target='add_movie'
             </a>

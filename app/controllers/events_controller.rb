@@ -14,6 +14,7 @@ class EventsController < ApplicationController
   def add_movie
     @event = Event.find(params[:id])
     movie = Movie.find_or_create_movie(params_movie)
+    movie.update(params_movie)
     Choice.create(movie: movie, user: current_user, event: @event, ranking: 0)
     redirect_to event_path(@event)
   end
@@ -30,6 +31,7 @@ class EventsController < ApplicationController
       poster_url: "https://image.tmdb.org/t/p/w300#{params.require(:tmdb_poster_url)}",
       tmdb_id: params.require(:tmdb_id),
       year: params.require(:year),
+      overview: params.require(:tmdb_overview)
     }
   end
 end
