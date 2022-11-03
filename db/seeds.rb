@@ -18,7 +18,8 @@
 # puts " "
 # puts "###########################"
 
-# puts " User ben@gmail.com created"
+puts " User ben@gmail.com created"
+User.create(email: "ben@gmail.com", password: 'secret')
 # puts " Data Creation"
 # puts " Session Creation"
 # session1 = Event.create(name: "first session", date: "24/05/2022")
