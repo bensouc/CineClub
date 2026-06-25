@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.4'
+ruby '3.3.10'
+
+# concurrent-ruby >= 1.3.5 dropped its implicit `require "logger"`, which
+# Rails 6.1's ActiveSupport relies on (otherwise: "uninitialized constant
+# LoggerThreadSafeLevel::Logger"). Pin to the last version that requires it so
+# every entry point (rails, rake, bin/webpack) boots cleanly.
+gem 'concurrent-ruby', '1.3.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 6.1.6'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.10'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -60,6 +66,9 @@ group :development do
 end
 
 group :test do
+  # Rails 6.1's parallel testing relies on Minitest.run_one_method, which was
+  # removed in Minitest 6. Pin to the 5.x line that Rails 6.1 supports.
+  gem 'minitest', '~> 5.0'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'

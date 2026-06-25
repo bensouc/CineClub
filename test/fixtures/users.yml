@@ -1,0 +1,9 @@
+# Devise users. Password for both is "password123".
+# stretches is 1 in the test env (see config/initializers/devise.rb), so this is fast.
+alice:
+  email: alice@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+
+bob:
+  email: bob@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>

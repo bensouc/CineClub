@@ -1,0 +1,12 @@
+# Two choices in the same event (movie_night), each for a different movie.
+inception_choice:
+  user: alice
+  movie: inception
+  event: movie_night
+  ranking: 1
+
+matrix_choice:
+  user: bob
+  movie: matrix
+  event: movie_night
+  ranking: 1

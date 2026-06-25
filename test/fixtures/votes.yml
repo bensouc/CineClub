@@ -1,0 +1,4 @@
+# Alice has voted for the Inception choice.
+alice_inception:
+  user: alice
+  choice: inception_choice
