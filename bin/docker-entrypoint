@@ -1,12 +1,13 @@
 #!/bin/bash -e
 
-# Enable jemalloc for reduced memory usage and latency.
-if [ -z "${LD_PRELOAD+x}" ]; then
-  LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
-  export LD_PRELOAD
-fi
+# Entrypoint du conteneur.
+#
+# Les migrations ne sont PAS lancées ici : elles tournent via la commande
+# pre-deploy de Coolify (`./bin/rails db:prepare`), pour ne s'exécuter qu'une
+# fois par déploiement plutôt qu'à chaque démarrage de conteneur.
+#
+# Un pidfile hérité d'un conteneur tué brutalement empêcherait Puma de
+# redémarrer ("A server is already running"), d'où le nettoyage.
+rm -f tmp/pids/server.pid
 
-# Schema changes are the deploy's release_command (see fly.toml), not every
-# machine boot: with auto_stop_machines every cold start would otherwise pay for
-# a second full Rails boot, and concurrent machines would race each other.
 exec "${@}"

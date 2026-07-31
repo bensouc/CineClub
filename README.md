@@ -103,15 +103,58 @@ bin/rails test
 The suite never touches the network: WebMock is enabled in `test/test_helper.rb`
 and every TMDB call is stubbed (`stub_tmdb`).
 
-## Deployment (Fly.io)
+## Déploiement (Coolify sur VPS OVH)
 
-The `Dockerfile` has no Node stage. Assets are compiled at build time by
-`assets:precompile`, which pulls in `dartsass:build`.
+L'image ne contient **aucune étape Node** : le JS passe par Importmap
+(`vendor/javascript`, versionné) et le CSS est compilé par le binaire livré dans
+la gem `tailwindcss-ruby`. Le `Gemfile.lock` embarque les plateformes Linux
+(`x86_64-linux-gnu`, `aarch64-linux-gnu`), donc le binaire Tailwind est bien
+résolu dans le conteneur.
+
+### Configuration Coolify
+
+| Réglage | Valeur |
+|---|---|
+| Build Pack | Dockerfile |
+| Port exposé | `3000` |
+| Health check | `/up` |
+| Pre-deployment command | `./bin/rails db:prepare` |
+
+La commande pre-deploy est **indispensable** : les migrations ne tournent pas
+dans l'entrypoint, pour ne s'exécuter qu'une fois par déploiement plutôt qu'à
+chaque démarrage de conteneur.
+
+### Variables d'environnement
+
+| Variable | Rôle |
+|---|---|
+| `RAILS_MASTER_KEY` | contenu de `config/master.key` — déchiffre les credentials (clé TMDB, `secret_key_base`) |
+| `DATABASE_URL` | fournie par le service PostgreSQL attaché dans Coolify |
+| `APP_HOST` | domaine public, utilisé pour les liens dans les emails |
+
+`RAILS_ENV`, `PORT`, `RAILS_LOG_TO_STDOUT` et `RAILS_SERVE_STATIC_FILES` sont
+déjà fixés dans le Dockerfile — inutile de les répéter côté Coolify.
+
+L'app tourne avec `force_ssl` et `assume_ssl`, ce qui suppose un proxy qui
+termine le TLS et renseigne `X-Forwarded-Proto`. C'est ce que fait le Traefik de
+Coolify. En frappant le conteneur directement en HTTP, tout est redirigé vers
+HTTPS sauf `/up`, volontairement exclu pour que le health check fonctionne.
+
+### Premier déploiement
+
+Aucun compte n'est créé automatiquement. Une fois la première mise en ligne
+faite, amorcez l'administrateur depuis un terminal Coolify :
 
 ```bash
-fly secrets set RAILS_MASTER_KEY="$(cat config/master.key)"
-fly deploy
+ADMIN_EMAIL=vous@exemple.fr ADMIN_PASSWORD='...' bin/rails db:seed
 ```
 
-`DATABASE_URL` is provided by the attached Postgres cluster. `/up` is the health
-check endpoint.
+Tous les comptes suivants passent par un lien d'invitation généré depuis
+`/invitations`.
+
+### Build en local
+
+```bash
+colima start                    # le runtime Docker de cette machine
+docker build -t cineclub .
+```
