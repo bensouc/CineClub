@@ -4,14 +4,22 @@
     <%= tag.title "Ciné Club" %>
     <%= tag.meta name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" %>
     <%= tag.meta name: "theme-color", content: "#faf8f4" %>
+
+    <%# PWA : installable et lancée en plein écran depuis l'écran d'accueil. %>
+    <%= tag.meta name: "mobile-web-app-capable", content: "yes" %>
     <%= tag.meta name: "apple-mobile-web-app-capable", content: "yes" %>
+    <%= tag.meta name: "apple-mobile-web-app-status-bar-style", content: "default" %>
+    <%= tag.meta name: "apple-mobile-web-app-title", content: "CinéClub" %>
+    <%= tag.meta name: "application-name", content: "CinéClub" %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= favicon_link_tag "/apple-icon-180x180.png", rel: "apple-touch-icon", sizes: "180x180" %>
+    <%= tag.link rel: "manifest", href: "/manifest.json" %>
+    <%= favicon_link_tag "/apple-touch-icon.png", rel: "apple-touch-icon", sizes: "180x180" %>
+    <%= favicon_link_tag "/icon-192.png", type: "image/png", sizes: "192x192" %>
     <%= favicon_link_tag "/favicon-32x32.png", type: "image/png", sizes: "32x32" %>
     <%= favicon_link_tag "/favicon-16x16.png", type: "image/png", sizes: "16x16" %>
-    <%= tag.link rel: "manifest", href: "/manifest.json" %>
 
     <%= tag.link rel: "preconnect", href: "https://fonts.googleapis.com" %>
     <%= tag.link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true %>
