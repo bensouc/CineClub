@@ -5,12 +5,12 @@
 @import "config/config";
 
 // External libraries
+// Bootstrap's SCSS source is vendored under vendor/assets/stylesheets (see
+// config/initializers/dartsass.rb). Font Awesome is loaded from its CDN kit in
+// the application layout, so it needs no import here.
 @import "bootstrap/scss/bootstrap";
-@import "font-awesome-sprockets";
-@import "font-awesome";
 
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
-@import "pages/home";
 @import "events/index";

@@ -4,9 +4,12 @@
       <h1><%=@event.name%></h1>
     <% end %>
     <h1><%=I18n.l(@event.date, format: :long, locale: "fr")%></h1>
+    <% if admin? %>
+      <%= link_to "Modifier la soirée", edit_event_path(@event), class: "btn btn-sm btn-outline-light" %>
+    <% end %>
   </div>
   <div class="choices" >
-    <%@choices.order(ranking: :desc).each do |choice|%>
+    <% @choices.each do |choice| %>
       <div class="cardandoanwer" >
         <div class='movie-detailed-card' data-controller="display-names" >
           <div class="details" >
@@ -45,8 +48,8 @@
             </div>
           </div>
           <div class="vote-logo">
-            <% if @votes_user.where(choice: choice, user: current_user).first.nil? %>
-              <%=link_to event_vote_path(@event, choice), method: :post do%>
+            <% if @voted_choice_ids.exclude?(choice.id) %>
+              <%= link_to event_vote_path(@event, choice), data: { turbo_method: :post } do %>
                 <i class="fa-solid fa-circle-plus"></i>
               <% end %>
             <% end %>
@@ -57,7 +60,7 @@
             </div>
             <div class="show-votes d-none"  data-display-names-target="votes" data-action='click->display-names#hideVotes'>
               <i class="fa-solid fa-circle-xmark"></i>
-              <h4>Votant<%= "s" if choice.votes.count > 1  %> :</h4>
+              <h4>Votant<%= "s" if choice.votes.size > 1  %> :</h4>
               <% choice.votes.each do |vote|%>
                 <h5>
                   <li>
@@ -68,8 +71,8 @@
             </div>
           </div>
           <div class="unvote-logo">
-            <%unless @votes_user.where(choice: choice, user: current_user).first.nil?%>
-              <%= link_to event_unvote_path(@event, choice), method: :delete, data: { confirm: "Voulez vous retirer votre vote?" } do%>
+            <% if @voted_choice_ids.include?(choice.id) %>
+              <%= link_to event_unvote_path(@event, choice), data: { turbo_method: :delete, turbo_confirm: "Voulez vous retirer votre vote?" } do %>
                 <i class="fa-solid fa-circle-minus"></i>
               <% end %>
             <% end %>
@@ -79,7 +82,7 @@
           <div class="owner-name">
             Proposé par <%=choice.user.email.split('@').first.capitalize%>
             <% if choice.user == current_user %>
-              <%= link_to choice_path(choice), method: :delete, data: { confirm: "Voulez vous retirer ce film?" } do%>
+              <%= link_to choice_path(choice), data: { turbo_method: :delete, turbo_confirm: "Voulez vous retirer ce film?" } do %>
                 <i class="fa-solid fa-trash ms-2"></i>
               <% end %>
             <% end %>
@@ -88,19 +91,23 @@
       </div>
     <% end %>
   </div>
-  <div class="search-bar" id="search-bar" data-controller= 'movie-search'  >
-    <form>
+  <div class="search-bar" id="search-bar"
+       data-controller="movie-search"
+       data-movie-search-search-url-value="<%= movies_search_path %>"
+       data-movie-search-add-url-value="<%= event_choices_path(@event) %>">
+    <form data-action="movie-search#search">
       <div class="search-form-control form-group">
-        <input class="form-control string required" value='Titre' onClick="this.value=''"  type="text"
-              data-movie-search-target='query' data-action ='enter->movie-search#display_results' />
-        <div class="btn btn-flat mb-4" data-action ='click->movie-search#display_results'>
-          <i class="fas fa-search" ></i>
-        </div>
+        <input class="form-control string required" type="text" placeholder="Titre"
+               aria-label="Rechercher un film"
+               data-movie-search-target="query">
+        <button type="submit" class="btn btn-flat mb-4" aria-label="Rechercher">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </div>
     </form>
-    <div class="choices" data-movie-search-target='results'>
-      <%# HERE comes ajax and serach result in movie_search_controller.js %>
-    </div>
+    <ul class="choices" data-movie-search-target="results">
+      <%# Search results are rendered here by movie_search_controller.js %>
+    </ul>
   </div>
 </div>
 <div class="footer">

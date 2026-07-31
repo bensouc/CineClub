@@ -1,50 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <title>Cineclub</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <!-- favicone-->
-    <link rel="images/apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="images/apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="images/apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="images/apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="images/apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="images/apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="images/apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="images/apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="images/apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="images/icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="images/icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="images/icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="images/icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <!-- Hide url bar -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <!-- googlefont -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:ital,wght@0,200;0,700;1,200&display=swap" rel="stylesheet">    <!-- fontawesome-->
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:ital,wght@0,200;0,700;1,200&display=swap" rel="stylesheet">
+    <!-- font awesome -->
     <script src="https://kit.fontawesome.com/aa9dc78317.js" crossorigin="anonymous"></script>
-    <!--Scripts -->
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
   <body>
-    <%# <%= render 'shared/navbar' %>
-    <%# <%= render "shared/flashes" %>
+    <%= render "shared/flashes" %>
     <%= yield %>
-    <%unless current_user.nil?  %>
+    <% unless current_user.nil? %>
       <div class="management">
-        <%= link_to events_path do%>
+        <%= link_to events_path do %>
           <i class="fa-solid fa-list"></i>
         <% end %>
-        <%= link_to destroy_user_session_path, method: :delete do%>
+        <% if current_user.admin? %>
+          <%= link_to new_event_path, title: "Nouvelle soirée" do %>
+            <i class="fa-solid fa-circle-plus"></i>
+          <% end %>
+        <% end %>
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
           <i class="fa-solid fa-right-from-bracket"></i>
         <% end %>
       </div>

@@ -1,0 +1,27 @@
+<div class="d-flex flex-column p-4">
+  <div class="title">
+    <h1><%= title %></h1>
+  </div>
+
+  <%= simple_form_for(event) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :name, label: "Nom de la soirée", input_html: { autofocus: true } %>
+      <%= f.input :date, as: :date, html5: true, label: "Date" %>
+    </div>
+
+    <div class="form-actions mt-3">
+      <%= f.button :submit, submit_label, class: "btn btn-primary" %>
+      <%= link_to "Annuler", events_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+
+  <% if event.persisted? %>
+    <div class="mt-4">
+      <%= link_to "Supprimer cette soirée", event_path(event), class: "btn btn-danger",
+                  data: { turbo_method: :delete,
+                          turbo_confirm: "Supprimer la soirée et tous ses films ?" } %>
+    </div>
+  <% end %>
+</div>

@@ -1,18 +1,13 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-  export default class extends Controller {
-    static targets = ["votes"]
+export default class extends Controller {
+  static targets = ["votes"]
 
-    connect() {
-      console.log('hello')
-    }
-    displayVotes() {
-      // console.log("display")
-      this.votesTarget.classList.remove("d-none")
-
-    }
-    hideVotes() {
-      // console.log("remove")
-      this.votesTarget.classList.add("d-none")
-    }
+  displayVotes() {
+    this.votesTarget.classList.remove("d-none")
   }
+
+  hideVotes() {
+    this.votesTarget.classList.add("d-none")
+  }
+}

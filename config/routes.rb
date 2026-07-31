@@ -1,15 +1,21 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   root to: "events#index"
+
+  # Reveal application health on /up.
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  # JSON proxy in front of the TMDB search API, so the API key stays on the server.
+  get "movies/search", to: "movies#search", as: :movies_search
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :events, only: [:index, :show, :update, :new, :create, :destroy] do
+  resources :events do
+    # Adding a movie to an event creates a Choice, so it lives with the rest of
+    # the Choice lifecycle rather than on EventsController.
+    resources :choices, only: [:create]
     post 'choices/:id', to: 'choices#vote', as: 'vote'
     delete "choices/:id", to: 'choices#unvote', as: 'unvote'
   end
-  post '/events/:id', to: 'events#add_movie', as: 'add_movie'
 
   resources :choices, only: [:destroy]
-
-
 end
