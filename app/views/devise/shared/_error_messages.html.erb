@@ -1,15 +1,12 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation">
-    <h2>
-      <%= I18n.t("errors.messages.not_saved",
-                 count: resource.errors.count,
-                 resource: resource.class.model_name.human.downcase)
-       %>
-    </h2>
-    <ul>
+  <%= tag.div role: "alert",
+              class: "mb-4 rounded-xl border border-curtain/25 bg-curtain/5 p-4 text-sm text-curtain" do %>
+    <%= tag.p pluralize(resource.errors.count, "erreur empêche", plural: "erreurs empêchent") +
+              " l'enregistrement :", class: "font-semibold" %>
+    <%= tag.ul class: "mt-1 list-inside list-disc" do %>
       <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <%= tag.li message %>
       <% end %>
-    </ul>
-  </div>
+    <% end %>
+  <% end %>
 <% end %>

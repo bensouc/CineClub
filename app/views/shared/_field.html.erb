@@ -1,0 +1,20 @@
+<% input_classes = "h-12 w-full rounded-xl border border-line bg-card px-4 text-base " \
+                   "placeholder:text-muted focus:border-marquee focus:outline-none " \
+                   "focus:ring-2 focus:ring-marquee/30" %>
+
+<%= tag.div do %>
+  <%= form.label name, label, class: "mb-1.5 block text-sm font-semibold text-muted" %>
+  <% case type %>
+  <% when :date %>
+    <%= form.date_field name, class: input_classes, **local_assigns.fetch(:options, {}) %>
+  <% when :email %>
+    <%= form.email_field name, class: input_classes, autocomplete: "email", **local_assigns.fetch(:options, {}) %>
+  <% when :password %>
+    <%= form.password_field name, class: input_classes, **local_assigns.fetch(:options, {}) %>
+  <% else %>
+    <%= form.text_field name, class: input_classes, **local_assigns.fetch(:options, {}) %>
+  <% end %>
+  <% if local_assigns[:hint].present? %>
+    <%= tag.p hint, class: "mt-1 text-xs text-muted" %>
+  <% end %>
+<% end %>

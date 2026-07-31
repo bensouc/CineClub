@@ -1,0 +1,76 @@
+<%= tag.header class: "pt-8 pb-6" do %>
+  <%= tag.h1 "Invitations", class: "text-4xl leading-none" %>
+  <%= tag.p "Le club est privé : on ne peut créer un compte qu'avec un de ces liens.",
+            class: "mt-2 text-sm text-muted" %>
+  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-full" %>
+<% end %>
+
+<%= form_with model: @invitation, class: "space-y-4 rounded-card border border-line bg-card p-4" do |f| %>
+  <% if @invitation.errors.any? %>
+    <%= tag.div @invitation.errors.full_messages.to_sentence, role: "alert",
+                class: "rounded-xl border border-curtain/25 bg-curtain/5 p-3 text-sm text-curtain" %>
+  <% end %>
+
+  <%= render "shared/field", form: f, name: :label, label: "À qui ?", type: :text,
+                             options: { placeholder: "Groupe WhatsApp" },
+                             hint: "Juste pour vous y retrouver dans la liste." %>
+  <%= render "shared/field", form: f, name: :max_uses, label: "Nombre d'utilisations", type: :text,
+                             options: { type: "number", min: 1, placeholder: "illimité" },
+                             hint: "Laissez vide pour un lien réutilisable sans limite." %>
+
+  <%= f.submit "Créer le lien",
+               class: "w-full rounded-xl bg-marquee px-4 py-3 font-bold text-marquee-ink " \
+                      "shadow-sm transition hover:brightness-95" %>
+<% end %>
+
+<%= tag.ul class: "mt-6 space-y-3" do %>
+  <% @invitations.each do |invitation| %>
+    <% url = join_url(invitation.token) %>
+    <%= tag.li data: { controller: "clipboard", clipboard_text_value: url },
+               class: "rounded-card border border-line bg-card p-4 #{'opacity-60' unless invitation.usable?}" do %>
+
+      <%= tag.div class: "flex items-start justify-between gap-3" do %>
+        <%= tag.div class: "min-w-0" do %>
+          <%= tag.p invitation.label.presence || "Sans nom", class: "font-semibold" %>
+          <%= tag.p class: "mt-0.5 text-xs text-muted" do %>
+            <%= invitation.uses_count %> inscription<%= "s" if invitation.uses_count > 1 %>
+            <%= "sur #{invitation.max_uses}" if invitation.max_uses %>
+            · créée par <%= invitation.created_by.email.split("@").first.capitalize %>
+          <% end %>
+        <% end %>
+
+        <% if invitation.usable? %>
+          <%= tag.span "Active",
+                       class: "shrink-0 rounded-full bg-marquee/15 px-2.5 py-0.5 text-[11px] " \
+                              "font-bold uppercase tracking-wider text-marquee-ink" %>
+        <% else %>
+          <%= tag.span invitation.unusable_reason,
+                       class: "shrink-0 rounded-full bg-curtain/10 px-2.5 py-0.5 text-[11px] " \
+                              "font-bold uppercase tracking-wider text-curtain" %>
+        <% end %>
+      <% end %>
+
+      <% if invitation.usable? %>
+        <%= tag.p url, data: { clipboard_target: "text" },
+                  class: "mt-3 truncate rounded-lg bg-paper px-3 py-2 font-mono text-xs text-muted" %>
+
+        <%= tag.div class: "mt-3 flex items-center gap-2" do %>
+          <%= tag.button type: "button", data: { action: "clipboard#copy" },
+                         class: "flex-1 rounded-lg bg-marquee py-2 text-xs font-bold text-marquee-ink " \
+                                "transition hover:brightness-95" do %>
+            <%= tag.span "Copier le lien", data: { clipboard_target: "label" } %>
+          <% end %>
+          <%= link_to "Révoquer", invitation_path(invitation),
+                      data: { turbo_method: :delete, turbo_confirm: "Révoquer cette invitation ?" },
+                      class: "rounded-lg border border-line px-3 py-2 text-xs font-semibold text-muted " \
+                             "transition hover:border-curtain/40 hover:text-curtain" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @invitations.empty? %>
+  <%= tag.p "Aucune invitation pour le moment.",
+            class: "mt-6 rounded-card border border-dashed border-line py-10 text-center text-sm text-muted" %>
+<% end %>

@@ -1,53 +1,47 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Cineclub</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+<%= "<!DOCTYPE html>".html_safe %>
+<%= tag.html lang: "fr" do %>
+  <%= tag.head do %>
+    <%= tag.title "Ciné Club" %>
+    <%= tag.meta name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" %>
+    <%= tag.meta name: "theme-color", content: "#faf8f4" %>
+    <%= tag.meta name: "apple-mobile-web-app-capable", content: "yes" %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <!-- favicone-->
-    <link rel="images/apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="images/apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="images/apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="images/apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="images/apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="images/apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="images/apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="images/apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="images/apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="images/icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="images/icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="images/icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="images/icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Hide url bar -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <!-- googlefont -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:ital,wght@0,200;0,700;1,200&display=swap" rel="stylesheet">    <!-- fontawesome-->
-    <script src="https://kit.fontawesome.com/aa9dc78317.js" crossorigin="anonymous"></script>
-    <!--Scripts -->
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
-  </head>
-  <body>
-    <%# <%= render 'shared/navbar' %>
-    <%# <%= render "shared/flashes" %>
-    <%= yield %>
-    <%unless current_user.nil?  %>
-      <div class="management">
-        <%= link_to events_path do%>
-          <i class="fa-solid fa-list"></i>
-        <% end %>
-        <%= link_to destroy_user_session_path, method: :delete do%>
-          <i class="fa-solid fa-right-from-bracket"></i>
-        <% end %>
-      </div>
+
+    <%= favicon_link_tag "/apple-icon-180x180.png", rel: "apple-touch-icon", sizes: "180x180" %>
+    <%= favicon_link_tag "/favicon-32x32.png", type: "image/png", sizes: "32x32" %>
+    <%= favicon_link_tag "/favicon-16x16.png", type: "image/png", sizes: "16x16" %>
+    <%= tag.link rel: "manifest", href: "/manifest.json" %>
+
+    <%= tag.link rel: "preconnect", href: "https://fonts.googleapis.com" %>
+    <%= tag.link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true %>
+    <%= tag.link rel: "stylesheet",
+                 href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Urbanist:wght@400;500;600;700&display=swap" %>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  <% end %>
+
+  <%= tag.body class: "antialiased" do %>
+    <%= tag.main class: "mx-auto w-full max-w-screen-sm px-4" do %>
+      <%= render "shared/flashes" %>
+      <%= yield %>
     <% end %>
-  </body>
-</html>
+
+    <% unless current_user.nil? %>
+      <%= tag.nav "aria-label": "Navigation principale",
+                  class: "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-card/95 " \
+                         "backdrop-blur pb-[env(safe-area-inset-bottom)]" do %>
+        <%= tag.div class: "mx-auto flex max-w-screen-sm items-center justify-around px-4 py-3" do %>
+          <%= render "shared/nav_link", path: events_path, name: :list, label: "Soirées" %>
+          <% if admin? %>
+            <%= render "shared/nav_link", path: new_event_path, name: :plus, label: "Nouvelle", accent: true %>
+            <%= render "shared/nav_link", path: invitations_path, name: :ticket, label: "Inviter" %>
+          <% end %>
+          <%= render "shared/nav_link", path: destroy_user_session_path, name: :logout,
+                                        label: "Sortir", method: :delete %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

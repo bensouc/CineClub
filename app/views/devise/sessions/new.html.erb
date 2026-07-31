@@ -1,36 +1,57 @@
-<div class="intro_top">
-  <div class="img-intro">
-  </div>
-  <div class="connect-form">
-    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="form-inputs">
-        <%= f.input :email,
-                required: true,
-                autofocus: true,
-                label: false,
-                input_html: { autocomplete: "email", class: 'input_field' } %>
-        <%= f.input :password,
-                required: true,
-                label: false,
-                input_html: { autocomplete: "current-password",class: 'input_field' } %>
-        <%= f.input :remember_me,
-        label:'Se souvenir de moi',
-        class: 'remember-me',
-        as: :boolean if devise_mapping.rememberable? %>
-        <div class="form-actions">
-          <%= f.button :submit, "Connexion",class: 'submit-btn' %>
-        </div>
-      </div>
+<%# Full-bleed hero: the layout pads the page by 4, so break out of it with -mx-4.
+    Photo credit and licence are recorded in app/assets/images/CREDITS.md. %>
+<%= tag.section class: "relative -mx-4 h-72 overflow-hidden" do %>
+  <%# Photo and its darkening veil share one masked wrapper, so they dissolve
+      together into the page background instead of being cut off square. The
+      veil fades to ink/0 rather than `transparent`, which CSS resolves to
+      transparent *black* — interpolating towards it would grey the midpoints. %>
+  <%= tag.div class: "hero-fade absolute inset-0" do %>
+    <%= image_tag "cinema-plein-air.jpg", alt: "Séance de cinéma en plein air au crépuscule",
+                  class: "absolute inset-0 h-full w-full object-cover" %>
+    <%= tag.div class: "absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/55 via-50% to-ink/0" %>
+  <% end %>
+
+  <%= tag.div class: "absolute inset-x-0 top-0 px-6 pt-9 text-center" do %>
+    <%= tag.h1 "Ciné Club",
+               class: "text-7xl leading-none text-white [text-shadow:0_2px_16px_rgb(0_0_0_/_0.45)]" %>
+    <%= tag.div class: "film-strip mx-auto mt-5 h-3 w-32 rounded-full opacity-90" %>
+    <%= tag.p "Le film qui met tout le monde d'accord.",
+              class: "mt-5 text-base font-medium text-white [text-shadow:0_1px_10px_rgb(0_0_0_/_0.5)]" %>
+    <%= tag.p "Chacun propose, chacun vote.",
+              class: "mt-1 text-sm text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0_/_0.6)]" %>
+  <% end %>
+<% end %>
+
+<%= tag.div class: "-mt-4 pb-10" do %>
+
+  <%= form_with model: resource, as: resource_name, url: session_path(resource_name),
+                class: "mt-8 space-y-4" do |f| %>
+    <%= render "shared/field", form: f, name: :email, label: "Email", type: :email,
+                               options: { autofocus: true, required: true, placeholder: "vous@exemple.fr" } %>
+    <%= render "shared/field", form: f, name: :password, label: "Mot de passe", type: :password,
+                               options: { required: true, autocomplete: "current-password" } %>
+
+    <% if devise_mapping.rememberable? %>
+      <%= tag.label class: "flex items-center gap-2.5 text-sm text-muted" do %>
+        <%= f.check_box :remember_me, class: "size-4 rounded border-line text-marquee focus:ring-marquee/40" %>
+        Se souvenir de moi
+      <% end %>
     <% end %>
-  </div>
-</div>
-</div>
-<div class="mentions">
-  <h2>
-    Une Production <%=link_to "https://vroadstudio.fr", target: :_blank, rel: 'noopener'  do %>
-      <%=image_tag('logoVRoad-V1-black.png', :height => 24)%>
+
+    <%= f.submit "Entrer en salle",
+                 class: "w-full rounded-xl bg-marquee px-4 py-3.5 text-base font-bold text-marquee-ink " \
+                        "shadow-sm transition hover:brightness-95" %>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+
+  <%= tag.footer class: "mt-12 border-t border-line pt-5 text-center text-xs text-muted" do %>
+    <%= tag.p class: "flex flex-wrap items-center justify-center gap-1.5" do %>
+      Une production
+      <%= link_to "https://vroadstudio.fr", target: :_blank, rel: "noopener", class: "inline-flex" do %>
+        <%= image_tag "logoVRoad-V1-black.png", alt: "VRoad Studio", class: "h-4 w-auto" %>
+      <% end %>
     <% end %>
-    <br>
-    Avec la TMDB API
-  </h2>
-</div>
+    <%= tag.p "Données films fournies par TMDB", class: "mt-1" %>
+  <% end %>
+<% end %>

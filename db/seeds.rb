@@ -1,41 +1,27 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+# Seeds — exécuté par `bin/rails db:seed`, et automatiquement par `db:prepare`
+# lorsque la base n'existe pas encore (donc au tout premier déploiement).
 #
-# Examples:
+# Rien n'est créé sans variables d'environnement explicites : un mot de passe en
+# dur ici finirait dans le dépôt Git et ouvrirait le premier déploiement à qui
+# sait lire le code.
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }]) test2
-#   Character.create(name: 'Luke', movie: movies.first)
+# Pour amorcer le premier administrateur :
+#   ADMIN_EMAIL=vous@exemple.fr ADMIN_PASSWORD='...' bin/rails db:seed
+#
+# Ensuite, tous les autres comptes se créent via un lien d'invitation (/invitations).
 
+email = ENV["ADMIN_EMAIL"].presence
+password = ENV["ADMIN_PASSWORD"].presence
 
-# puts "###########################"
-# puts " "
-# puts " destroing data"
-# User.destroy_all
-# Choice.destroy_all
-# Movie.destroy_all
-# Event.destroy_all
-# puts " data Destroyed"
-# puts " "
-# puts "###########################"
+if email.nil? || password.nil?
+  puts "db:seed — ADMIN_EMAIL / ADMIN_PASSWORD non fournis, aucun compte créé."
+  puts "          Le premier admin s'amorce avec :"
+  puts "          ADMIN_EMAIL=... ADMIN_PASSWORD=... bin/rails db:seed"
+else
+  admin = User.find_or_initialize_by(email: email)
+  admin.password = password
+  admin.admin = true
+  admin.save!
 
-puts " User ben@gmail.com created"
-User.create(email: "ben@gmail.com", password: 'secret')
-# puts " Data Creation"
-# puts " Session Creation"
-# session1 = Event.create(name: "first session", date: "24/05/2022")
-# # session1 = Event.create(name: "first session", date: "24/05/2022")
-# session2 = Event.create(name: 'La deuxieme!!', date: '07/06/2022')
-# puts " Session Creation DONE"
-# puts " "
-# puts " Movie Creation"
-# movie1 = Movie.create!(title: "Pulp Fiction", kind: "trhiller", poster_url: "https://m.media-amazon.com/images/I/51Dd09FUNLL._AC_.jpg", trailer_url: "https://www.youtube.com/watch?v=tGpTpVyI_OQ")
-# movie2 = Movie.create!(title: 'Aliens', kind: 'flippete', poster_url:"https://m.media-amazon.com/images/I/41unQZ94ZtL._AC_.jpg", trailer_url:"https://www.youtube.com/watch?v=oSeQQlaCZgU")
-# puts " End of Movie Creation"
-# puts " "
-# puts " Choice Creation"
-# choice1 = Choice.create(movie: movie1, event: session1, user: user1, ranking: 0)
-# choice2 = Choice.create(movie: movie2, event: session1, user: user1, ranking: 0)
-# puts " End  of Choice Creation"
-# puts " "
-# puts " End of Data Creation"
-# puts "###########################"
+  puts "db:seed — administrateur #{admin.email} prêt."
+end

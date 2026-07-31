@@ -1,0 +1,7 @@
+<% tone = local_assigns[:accent] ? "text-marquee-ink" : "text-muted hover:text-ink" %>
+<%= link_to path,
+            data: local_assigns[:method] ? { turbo_method: local_assigns[:method] } : {},
+            class: "flex flex-col items-center gap-1 rounded-lg px-4 py-1.5 transition hover:bg-paper #{tone}" do %>
+  <%= icon name, size: "size-6" %>
+  <%= tag.span label, class: "text-xs font-medium" %>
+<% end %>

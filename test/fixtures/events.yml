@@ -1,0 +1,9 @@
+# NB: the Event model declares no `belongs_to :user`, and events.user_id is
+# nullable, so we leave it unset here.
+movie_night:
+  name: Soirée ciné
+  date: 2026-07-01
+
+empty_night:
+  name: Soirée sans films
+  date: 2026-08-01

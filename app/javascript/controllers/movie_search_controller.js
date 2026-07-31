@@ -1,80 +1,91 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-import * as Routes from 'routes';
+const SEARCH_FAILED = "La recherche a échoué"
 
+// Drives the movie search box on an event page.
+//
+// The TMDB call itself happens server-side (MoviesController#search) so the API
+// key never reaches the browser; this controller only renders what comes back.
 export default class extends Controller {
-  static targets = ["query", "results", "add_movie"]
+  static targets = ["query", "results"]
+  static values = { searchUrl: String, addUrl: String }
 
-  // connect() {
+  async search(event) {
+    event.preventDefault()
 
-  //   console.log("searc movie controller connected")
-  // }
-
-  display_results(event) {
-    event.preventDefault() // <-- to prevent <form>'s native behaviour
-    this.resultsTarget.innerHTML = ""
-
-    const query = this.queryTarget.value
-    const api_key = process.env.TMDB_API_KEY
-
-    if (query == '' || query == 'Titre') {
-      const movieTag =
-        `<div class="noresult">
-          <h5>Le champ doit<br> être rempli</h5>
-        </div>`
-      this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
+    const query = this.queryTarget.value.trim()
+    if (query === "") {
+      this.#showMessage("Le champ doit être rempli")
+      return
     }
-    else {
-      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&language=fr`)
-        .then(response => response.json())
-        .then(data => this.insertMovies(data))
-      }
-      document.getElementById("search-bar").scrollIntoView();
-  }
 
-  insertMovies(data) {
-    if (data.total_results == 0) {
-      const movieTag =
-        `<div class="noresult">
-          <h5>Aucun résultat <br> correspondant</h5>
-        </div>`
-      this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
-    }
-    else {
+    this.#showMessage("Recherche…")
+    this.element.scrollIntoView()
 
-      // get event id
-      const baseUrl = document.URL
-      const event_id = baseUrl.substring(baseUrl.lastIndexOf('events/') + 7)
-      const clean_event_id = (event_id.match(/[0-9]+/))[0]
-      data.results.forEach((result) => {
-        const movieTag =
-          `<li class="m-3">
-            <a rel="nofollow" data-method="post" href="/events/${clean_event_id}?title=${result.title}
-&tmdb_poster_url=${result.poster_path}&trailer_url=&year=${result.release_date}
-&tmdb_id=${result.id}&tmdb_genre_id=${result.genre_ids}&tmdb_overview=${result.overview}">
-                <img src= https://image.tmdb.org/t/p/w300${result.poster_path} alt="" width="230"
-                data-action ="click->movie-search#add_movie" data-movie-search-target='add_movie'
-            </a>
-            </li>`
-        this.resultsTarget.insertAdjacentHTML("beforeend", movieTag)
+    let response
+    let payload
+    try {
+      response = await fetch(`${this.searchUrlValue}?query=${encodeURIComponent(query)}`, {
+        headers: { Accept: "application/json" }
       })
+      payload = await response.json()
+    } catch (error) {
+      this.#showMessage(SEARCH_FAILED)
+      return
     }
+
+    if (!response.ok) {
+      this.#showMessage(payload?.error ?? SEARCH_FAILED)
+      return
+    }
+
+    this.#showResults(payload.results ?? [])
   }
 
-  // add_movie() {
-  //   console.log(this.add_movieTarget.getAttribute("info"))
-  //   console.log(event_id)
-  //   var custom_url = { id: `{event_id}`, to_param: `${this.add_movieTarget.getAttribute("info")}` };
-  //   var custom_url2 = {
-  //     id: event_id
-  //   }
+  #showResults(results) {
+    if (results.length === 0) {
+      this.#showMessage("Aucun résultat correspondant")
+      return
+    }
 
-  //   // window.location.href = Routes.events_path(event_id)
-  //   // window.location.href = Routes.event_choices(event_id,{info: this.add_movieTarget.getAttribute("info")})
-  //   // creér un nouveau movie si il n'existe pas (tmdb_id)
+    this.resultsTarget.replaceChildren(...results.map((result) => this.#resultItem(result)))
+  }
 
-  //   // creer un nouveau choices avec ce movie
+  // Only the TMDB id travels back to the server, so titles containing "&" or
+  // "#" can no longer corrupt the URL.
+  #resultItem(result) {
+    const poster = document.createElement("img")
+    poster.src = result.poster_url
+    poster.alt = result.title
+    poster.loading = "lazy"
+    poster.className = "aspect-2/3 w-full object-cover"
 
-  // }
+    const caption = document.createElement("span")
+    caption.textContent = result.year ? `${result.title} · ${result.year}` : result.title
+    caption.className = "block truncate p-1.5 text-[11px] font-medium text-muted"
 
+    const link = document.createElement("a")
+    link.href = `${this.addUrlValue}?tmdb_id=${encodeURIComponent(result.tmdb_id)}`
+    link.dataset.turboMethod = "post"
+    link.title = caption.textContent
+    link.className =
+      "block overflow-hidden rounded-xl border border-line bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    link.append(poster, caption)
+
+    const item = document.createElement("li")
+    item.appendChild(link)
+    return item
+  }
+
+  // A text node rather than innerHTML: the messages are ours, but the habit keeps
+  // anything TMDB-sourced from ever being parsed as markup. .noresult is a fixed
+  // 200px centred box, so the text wraps on its own without hand-placed <br>.
+  #showMessage(text) {
+    const message = document.createElement("li")
+    message.textContent = text
+    message.className =
+      "col-span-3 rounded-xl border border-dashed border-line py-8 text-center text-sm text-muted"
+
+    this.resultsTarget.replaceChildren(message)
+  }
 }

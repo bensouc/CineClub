@@ -1,16 +1,29 @@
+# Git.
 .git
-tmp
-!tmp/pids
-log
-public/assets
-public/packs
-.bundle
+.gitignore
+.gitattributes
 
-db/*.sqlite3
-db/*.sqlite3-*
+# Temporary files.
+/tmp/*
+!/tmp/.keep
+!/tmp/pids
+/log/*
+!/log/.keep
+/storage/*
+!/storage/.keep
 
-storage
-config/master.key
-config/credentials/*.key
+# Bundler and compiled assets — rebuilt inside the image.
+/.bundle
+/public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
 
-node_modules
+# Secrets: the master key is injected at run time via RAILS_MASTER_KEY.
+/config/master.key
+/config/credentials/*.key
+
+# Tests and editor config.
+/test
+/.idea
+/.ruby-lsp
+.DS_Store

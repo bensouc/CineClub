@@ -1,34 +1,61 @@
-<div class="d-flex flex-column p-4">
-  <div class="title">
-    <h1>
-      Les soirées <br />
-      Ciné Club
-    </h1>
-  </div>
-  <% @events.each do |event|%> <%= link_to event_path(event) do %>
-      <% if event.date < Date.today %>
-        <div class="closed">
-          <p>Terminée</p>
-        </div>
+<%= tag.header class: "pt-8 pb-6" do %>
+  <%= tag.p "Séances", class: "text-xs font-semibold uppercase tracking-[0.25em] text-marquee-ink" %>
+  <%= tag.h1 "Ciné Club", class: "mt-1 text-5xl leading-none" %>
+  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-full" %>
+<% end %>
+
+<%= tag.ul class: "space-y-4" do %>
+  <% @events.each do |event| %>
+    <% past = event.date < Date.current %>
+    <% ranked = event.ranked_choices %>
+
+    <%= tag.li do %>
+      <%= link_to event_path(event),
+                  class: "group block overflow-hidden rounded-card border border-line bg-card shadow-sm " \
+                         "transition hover:-translate-y-0.5 hover:shadow-md #{'opacity-70' if past}" do %>
+        <%= tag.div class: "flex items-stretch" do %>
+
+          <%# Ticket stub: the date, set apart by a dashed perforation line. %>
+          <%= tag.div class: "flex w-20 shrink-0 flex-col items-center justify-center border-r border-dashed " \
+                             "border-line #{past ? 'bg-paper text-muted' : 'bg-marquee/10 text-marquee-ink'}" do %>
+            <%= tag.span event.date.day, class: "font-display text-3xl leading-none" %>
+            <%= tag.span I18n.l(event.date, format: "%b", locale: :fr),
+                         class: "text-[11px] font-semibold uppercase tracking-wider" %>
+            <%= tag.span event.date.year, class: "text-[11px] text-muted" %>
+          <% end %>
+
+          <%= tag.div class: "flex min-w-0 flex-1 flex-col justify-center gap-1.5 px-4 py-4" do %>
+            <%= tag.h2 event.name, class: "truncate text-2xl leading-none" %>
+            <%= tag.p class: "flex items-center gap-1.5 text-sm text-muted" do %>
+              <%= icon :film, size: "size-4" %>
+              <%# French keeps the singular for 0, so pluralize/1 is wrong here. %>
+              <%= "#{ranked.size} film#{'s' if ranked.size > 1}" %>
+            <% end %>
+            <% if past %>
+              <%= tag.span "Terminée",
+                           class: "mt-0.5 inline-flex w-fit items-center rounded-full bg-curtain/10 px-2.5 " \
+                                  "py-0.5 text-[11px] font-bold uppercase tracking-wider text-curtain" %>
+            <% end %>
+          <% end %>
+
+          <%# Up to two winning posters, fanned. Fixed width, so a missing
+              poster never changes the card's height. %>
+          <% if ranked.any? %>
+            <%= tag.div class: "relative w-24 shrink-0 overflow-hidden" do %>
+              <% ranked.first(event.exequo? ? 2 : 1).each_with_index do |choice, i| %>
+                <%= image_tag choice.movie.poster_url, alt: choice.movie.title, loading: "lazy",
+                              class: "absolute inset-y-0 h-full w-20 object-cover " \
+                                     "#{i.zero? ? 'left-0' : 'left-6 shadow-[-6px_0_12px_rgba(0,0,0,.25)]'}" %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
-      <div class="event-card">
-        <div class="left">
-          <h2><%= event.name.capitalize %></h2>
-          <h5>
-            <i class="fa-solid fa-calendar-check"></i> <%= I18n.l(event.date,
-        format: :long, locale: "fr") %>
-          </h5>
-        </div>
-        <div class="event-poster right">
-          <% unless event.movies.empty?%> <% if event.exequo?%>
-              <div class="double">
-                <%= image_tag event.choices.order(ranking: :desc)[0].movie.poster_url %>
-                <%= image_tag event.choices.order(ranking: :desc)[1].movie.poster_url,
-        class: 'right' %>
-              </div>
-            <% else %> <%= image_tag event.choices.order(ranking:
-      :desc)[0].movie.poster_url %> <% end %> <% end %>
-        </div>
-      </div>
-    <% end %> <% end %>
-</div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @events.empty? %>
+  <%= tag.p "Aucune soirée pour le moment.",
+            class: "rounded-card border border-dashed border-line py-12 text-center text-muted" %>
+<% end %>

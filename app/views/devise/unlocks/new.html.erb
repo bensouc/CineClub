@@ -1,19 +1,10 @@
-<h2>Resend unlock instructions</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
-  <%= f.full_error :unlock_token %>
-
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Resend unlock instructions" %>
-  </div>
+<%= render layout: "devise/shared/auth_page", locals: { title: "Débloquer le compte" } do %>
+  <%= form_with model: resource, as: resource_name, url: unlock_path(resource_name),
+                method: :post, class: "space-y-4" do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= render "shared/field", form: f, name: :email, label: "Email", type: :email,
+                               options: { autofocus: true, required: true } %>
+    <%= f.submit "Renvoyer les instructions",
+                 class: "w-full rounded-xl bg-marquee px-4 py-3.5 text-base font-bold text-marquee-ink shadow-sm transition hover:brightness-95" %>
+  <% end %>
 <% end %>
-
-<%= render "devise/shared/links" %>

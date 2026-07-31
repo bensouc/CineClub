@@ -1,27 +1,14 @@
-<h2>Change your password</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
-
-  <%= f.input :reset_password_token, as: :hidden %>
-  <%= f.full_error :reset_password_token %>
-
-  <div class="form-inputs">
-    <%= f.input :password,
-                label: "New password",
-                required: true,
-                autofocus: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                label: "Confirm your new password",
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Change my password" %>
-  </div>
+<%= render layout: "devise/shared/auth_page", locals: { title: "Nouveau mot de passe" } do %>
+  <%= form_with model: resource, as: resource_name, url: password_path(resource_name),
+                method: :put, class: "space-y-4" do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= f.hidden_field :reset_password_token %>
+    <%= render "shared/field", form: f, name: :password, label: "Nouveau mot de passe", type: :password,
+                               options: { autofocus: true, required: true, autocomplete: "new-password" },
+                               hint: (@minimum_password_length ? "#{@minimum_password_length} caractères minimum" : nil) %>
+    <%= render "shared/field", form: f, name: :password_confirmation, label: "Confirmation", type: :password,
+                               options: { required: true, autocomplete: "new-password" } %>
+    <%= f.submit "Changer mon mot de passe",
+                 class: "w-full rounded-xl bg-marquee px-4 py-3.5 text-base font-bold text-marquee-ink shadow-sm transition hover:brightness-95" %>
+  <% end %>
 <% end %>
-
-<%= render "devise/shared/links" %>

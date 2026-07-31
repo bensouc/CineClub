@@ -22,25 +22,21 @@
 /storage/*
 !/storage/.keep
 
+# Ignore compiled and digested assets.
 /public/assets
-.byebug_history
+/app/assets/builds/*
+!/app/assets/builds/.keep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
-# Ignore .env file containing credentials.
-.env*
 # Ignore Mac and Linux file system files
 *.swp
 .DS_Store
-.env*
 
-# Ignore automatically generated js-routes files.
-/app/javascript/routes.js
-/app/javascript/routes.d.ts
+# Editor directories.
+/.idea
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

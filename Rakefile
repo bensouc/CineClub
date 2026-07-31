@@ -4,8 +4,3 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
-
-# Update js-routes file before assets precompile
-namespace :assets do
-  task :precompile => "js:routes:typescript"
-end
