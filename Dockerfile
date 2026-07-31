@@ -38,6 +38,14 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test"
 
+# Préférer l'IPv4. rubygems.org et TMDB sont en double pile IPv4/IPv6 (Fastly),
+# mais le VPS OVH n'a pas de route IPv6 fonctionnelle. Ruby 3.3 n'a pas encore le
+# Happy Eyeballs v2 (introduit en 3.4) : il tente l'IPv6 en premier et bloque 60 s
+# avant d'échouer (`Net::OpenTimeout`). Cette ligne fait pointer getaddrinfo sur
+# l'IPv4 d'abord — ça débloque `bundle install` au build ET les appels TMDB au
+# runtime. À retirer le jour où le VPS aura une IPv6 opérationnelle.
+RUN echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf
+
 
 # -----------------------------------------------------------------------------
 # Étape 2 — build (jetable)
