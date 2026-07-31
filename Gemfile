@@ -24,6 +24,10 @@ gem 'bootsnap', require: false
 
 gem 'devise'
 
+# Throttling des tentatives de connexion et blocage des scanners (voir
+# config/initializers/rack_attack.rb).
+gem 'rack-attack'
+
 group :development, :test do
   # Call `debugger` anywhere in the code to stop execution and get a console.
   gem 'debug', platforms: [:mri, :windows], require: 'debug/prelude'
