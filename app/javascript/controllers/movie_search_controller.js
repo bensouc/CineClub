@@ -57,17 +57,22 @@ export default class extends Controller {
     const poster = document.createElement("img")
     poster.src = result.poster_url
     poster.alt = result.title
-    poster.width = 230
     poster.loading = "lazy"
+    poster.className = "aspect-2/3 w-full object-cover"
+
+    const caption = document.createElement("span")
+    caption.textContent = result.year ? `${result.title} · ${result.year}` : result.title
+    caption.className = "block truncate p-1.5 text-[11px] font-medium text-muted"
 
     const link = document.createElement("a")
     link.href = `${this.addUrlValue}?tmdb_id=${encodeURIComponent(result.tmdb_id)}`
     link.dataset.turboMethod = "post"
-    link.title = result.year ? `${result.title} (${result.year})` : result.title
-    link.appendChild(poster)
+    link.title = caption.textContent
+    link.className =
+      "block overflow-hidden rounded-xl border border-line bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    link.append(poster, caption)
 
     const item = document.createElement("li")
-    item.className = "m-3"
     item.appendChild(link)
     return item
   }
@@ -76,13 +81,11 @@ export default class extends Controller {
   // anything TMDB-sourced from ever being parsed as markup. .noresult is a fixed
   // 200px centred box, so the text wraps on its own without hand-placed <br>.
   #showMessage(text) {
-    const heading = document.createElement("h5")
-    heading.textContent = text
+    const message = document.createElement("li")
+    message.textContent = text
+    message.className =
+      "col-span-3 rounded-xl border border-dashed border-line py-8 text-center text-sm text-muted"
 
-    const wrapper = document.createElement("div")
-    wrapper.className = "noresult"
-    wrapper.appendChild(heading)
-
-    this.resultsTarget.replaceChildren(wrapper)
+    this.resultsTarget.replaceChildren(message)
   }
 }

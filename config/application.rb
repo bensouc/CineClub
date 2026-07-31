@@ -28,6 +28,11 @@ module Cineclub
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     config.autoload_lib(ignore: %w[assets tasks templates])
 
+    # The app is French-facing: Devise flashes and validation messages should be
+    # too. Dates already pass locale: :fr explicitly in the views.
+    config.i18n.default_locale = :fr
+    config.i18n.available_locales = [:fr, :en]
+
     config.generators do |generate|
       generate.assets false
       generate.helper false

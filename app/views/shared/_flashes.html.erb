@@ -1,14 +1,16 @@
-<% if notice %>
-  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-    <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
-<% if alert %>
-  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-    <%= alert %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
+<% { notice: :marquee, alert: :curtain }.each do |type, tone| %>
+  <% next if flash[type].blank? %>
+  <% skin = tone == :curtain ? "border-curtain/25 bg-curtain/5 text-curtain" : "border-marquee/40 bg-marquee/10 text-marquee-ink" %>
+
+  <%= tag.div class: "mt-4", data: { controller: "dismiss", dismiss_after_value: 6000 } do %>
+    <%= tag.div role: "status",
+                class: "flex items-start gap-3 rounded-xl border px-4 py-3 text-sm #{skin}" do %>
+      <%= tag.p flash[type], class: "flex-1 font-medium" %>
+      <%= tag.button type: "button", "aria-label": "Fermer",
+                     data: { action: "dismiss#close" },
+                     class: "-m-1 shrink-0 rounded-md p-1 opacity-60 transition hover:opacity-100" do %>
+        <%= icon :close, size: "size-4" %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

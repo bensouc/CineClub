@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
   root to: "events#index"
+
+  # Private club: accounts are created from an admin-issued link, never from a
+  # public sign-up form.
+  resources :invitations, only: [:index, :create, :destroy]
+  get "rejoindre/:token", to: "invitations#show", as: :join
 
   # Reveal application health on /up.
   get "up" => "rails/health#show", as: :rails_health_check

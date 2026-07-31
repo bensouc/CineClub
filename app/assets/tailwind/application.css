@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   CinéClub — light cinema theme.
+   Paper-white surfaces so the posters carry the colour, a marquee gold accent
+   kept from the previous charter, and a deep curtain red for destructive or
+   "past event" states.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #faf8f4;
+  --color-card: #ffffff;
+  --color-ink: #17130f;
+  --color-muted: #6f665c;
+  --color-line: #e8e2d8;
+
+  --color-marquee: #e0a82e;
+  --color-marquee-ink: #6b4d06;
+  --color-curtain: #b3261e;
+  --color-reel: #1c1917;
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Room for the fixed action bar at the bottom of every page. */
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  /* The native pickers are the right control on mobile — this only stops iOS
+     from shrinking them into an unreadable box. */
+  input[type="date"] {
+    min-height: 3rem;
+    appearance: none;
+  }
+}
+
+/* Dissolves the hero photo into the page.
+   A gradient *overlay* cannot do this reliably: the image underneath is still
+   clipped square by overflow-hidden, so any pixel the overlay has not fully
+   covered at that exact row shows up as a seam — worse on narrow screens, where
+   object-cover crops onto the bright grass. Masking makes the image's own alpha
+   reach zero, so there is no edge left to clip. */
+@utility hero-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 97%);
+}
+
+/* A strip of film perforations, used as a section divider. The sprocket holes
+   have to be the FIRST background layer — layers paint front-to-back, so the
+   solid reel colour must sit behind them. */
+@utility film-strip {
+  background-image:
+    radial-gradient(circle at center, var(--color-paper) 34%, transparent 36%),
+    linear-gradient(var(--color-reel), var(--color-reel));
+  background-size: 13px 13px, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
+  background-position: center, center;
+}

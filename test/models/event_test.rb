@@ -9,14 +9,14 @@ class EventTest < ActiveSupport::TestCase
     event = events(:movie_night)
     event.name = nil
     assert_not event.valid?
-    assert_includes event.errors[:name], "can't be blank"
+    assert_includes event.errors[:name], "doit être rempli(e)"
   end
 
   test "is invalid without a date" do
     event = events(:movie_night)
     event.date = nil
     assert_not event.valid?
-    assert_includes event.errors[:date], "can't be blank"
+    assert_includes event.errors[:date], "doit être rempli(e)"
   end
 
   test "movies are reachable through choices" do

@@ -1,114 +1,136 @@
-<div class="d-flex flex-column p-4">
-  <div class="title"  >
-    <%unless @event.name.nil?  %>
-      <h1><%=@event.name%></h1>
-    <% end %>
-    <h1><%=I18n.l(@event.date, format: :long, locale: "fr")%></h1>
-    <% if admin? %>
-      <%= link_to "Modifier la soirée", edit_event_path(@event), class: "btn btn-sm btn-outline-light" %>
-    <% end %>
-  </div>
-  <div class="choices" >
-    <% @choices.each do |choice| %>
-      <div class="cardandoanwer" >
-        <div class='movie-detailed-card' data-controller="display-names" >
-          <div class="details" >
-            <!-- Button trigger modal -->
-            <button type="button" class="details" data-bs-toggle="modal" data-bs-target="#staticBackdrop-<%=choice.id%>">
-              <div class="left">
-                <% if choice.movie.trailer_url.nil? %>
-                  <div class="empty"></div>
-                <% else %>
-                  <%= link_to  choice.movie.trailer_url, target: 'blank', class: "trailer_url" do %>
-                    <i class="fa-solid fa-film"></i>
-                  <% end %>
-                <% end %>
-              </div>
-              <div class='event-poster'>
-                <%= image_tag choice.movie.poster_url %>
-              </div>
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop-<%=choice.id%>"  tabindex="-1" aria-labelledby="staticBackdrop-<%=choice.id%>Label" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdrop-<%=choice.id%>Label">Description : <%=choice.movie.title%></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <%= choice.movie.overview %>
-                  </div>
-                  <%# <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                  </div> %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="vote-logo">
-            <% if @voted_choice_ids.exclude?(choice.id) %>
-              <%= link_to event_vote_path(@event, choice), data: { turbo_method: :post } do %>
-                <i class="fa-solid fa-circle-plus"></i>
+<%= tag.header class: "pt-8 pb-6" do %>
+  <%= tag.p class: "flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-marquee-ink" do %>
+    <%= icon :calendar, size: "size-3.5" %>
+    <%= I18n.l(@event.date, format: :long, locale: :fr) %>
+  <% end %>
+  <%= tag.h1 @event.name, class: "mt-1 text-4xl leading-none" %>
+
+  <% if admin? %>
+    <%= link_to "Modifier la soirée", edit_event_path(@event),
+                class: "mt-3 inline-flex items-center rounded-lg border border-line px-3 py-1.5 " \
+                       "text-sm font-semibold text-muted transition hover:bg-card hover:text-ink" %>
+  <% end %>
+
+  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-full" %>
+<% end %>
+
+<%= tag.ul class: "grid grid-cols-2 gap-4" do %>
+  <% @choices.each do |choice| %>
+    <% voted = @voted_choice_ids.include?(choice.id) %>
+    <% movie = choice.movie %>
+
+    <%# One controller instance per card, so each dialog and voters panel only
+        ever sees its own targets. %>
+    <%= tag.li data: { controller: "dialog votes" },
+               class: "overflow-hidden rounded-card border border-line bg-card shadow-sm" do %>
+
+      <%# Poster is the whole top of the card; every badge sits inside it with
+          absolute positioning relative to THIS box, so nothing can drift. %>
+      <%= tag.div class: "relative aspect-2/3 w-full overflow-hidden bg-reel" do %>
+        <%= tag.button type: "button",
+                       "aria-label": "Synopsis de #{movie.title}",
+                       data: { action: "dialog#open" },
+                       class: "absolute inset-0 h-full w-full" do %>
+          <%= image_tag movie.poster_url, alt: movie.title, loading: "lazy",
+                        class: "h-full w-full object-cover" %>
+        <% end %>
+
+        <% if choice.ranking.positive? %>
+          <%= tag.button type: "button",
+                         "aria-label": "Voir les votants",
+                         data: { action: "votes#toggle" },
+                         class: "absolute right-2 top-2 flex size-9 items-center justify-center rounded-full " \
+                                "bg-marquee font-display text-lg text-marquee-ink shadow-md" do %>
+            <%= choice.ranking %>
+          <% end %>
+        <% end %>
+
+        <% if movie.trailer_url.present? %>
+          <%= link_to movie.trailer_url, target: "_blank", rel: "noopener",
+                      "aria-label": "Bande-annonce de #{movie.title}",
+                      class: "absolute left-2 top-2 flex size-9 items-center justify-center rounded-full " \
+                             "bg-ink/70 text-white backdrop-blur transition hover:bg-ink" do %>
+            <%= icon :play, size: "size-4" %>
+          <% end %>
+        <% end %>
+
+        <%# Voters list, revealed over the poster rather than pushed outside it. %>
+        <%= tag.div data: { votes_target: "panel" },
+                    class: "absolute inset-0 hidden flex-col gap-1 overflow-y-auto bg-ink/90 p-3 text-white backdrop-blur" do %>
+          <%= tag.p "Votants", class: "font-display text-lg leading-none text-marquee" %>
+          <% choice.votes.each do |vote| %>
+            <%= tag.p vote.user.email.split("@").first.capitalize, class: "text-sm" %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= tag.div class: "flex flex-col gap-2 p-3" do %>
+        <%= tag.p movie.title, class: "truncate text-sm font-semibold leading-tight", title: movie.title %>
+        <%= tag.p "Proposé par #{choice.user.email.split('@').first.capitalize}",
+                  class: "truncate text-xs text-muted" %>
+
+        <%= tag.div class: "flex items-center gap-2" do %>
+          <% if voted %>
+            <%= link_to event_unvote_path(@event, choice),
+                        data: { turbo_method: :delete, turbo_confirm: "Retirer votre vote ?" },
+                        class: "flex flex-1 items-center justify-center gap-1 rounded-lg bg-marquee/15 py-2 " \
+                               "text-xs font-bold text-marquee-ink transition hover:bg-marquee/25" do %>
+              <%= icon :minus, size: "size-4" %>
+              Retirer
+            <% end %>
+          <% else %>
+            <%= link_to event_vote_path(@event, choice),
+                        data: { turbo_method: :post },
+                        class: "flex flex-1 items-center justify-center gap-1 rounded-lg bg-marquee py-2 " \
+                               "text-xs font-bold text-marquee-ink shadow-sm transition hover:brightness-95" do %>
+              <%= icon :plus, size: "size-4" %>
+              Voter
+            <% end %>
+          <% end %>
+
+          <% if choice.user == current_user %>
+            <%= link_to choice_path(choice),
+                        "aria-label": "Retirer ce film",
+                        data: { turbo_method: :delete, turbo_confirm: "Retirer ce film de la soirée ?" },
+                        class: "flex size-9 shrink-0 items-center justify-center rounded-lg border " \
+                               "border-line text-muted transition hover:border-curtain/40 hover:text-curtain" do %>
+              <%= icon :trash, size: "size-4" %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%# Synopsis, in a native <dialog> — no Bootstrap JS involved. %>
+      <%= tag.dialog data: { dialog_target: "modal" },
+                     class: "m-auto w-[min(92vw,26rem)] rounded-card bg-card p-0 text-ink backdrop:bg-ink/60" do %>
+        <%= tag.div class: "flex items-start justify-between gap-3 border-b border-line p-4" do %>
+          <%= tag.h2 movie.title, class: "text-2xl leading-none" %>
+          <%= tag.button type: "button", "aria-label": "Fermer",
+                         data: { action: "dialog#close" },
+                         class: "-m-1 rounded-md p-1 text-muted transition hover:text-ink" do %>
+            <%= icon :close, size: "size-5" %>
+          <% end %>
+        <% end %>
+        <%= tag.div class: "space-y-3 p-4" do %>
+          <% if movie.kind.present? %>
+            <%= tag.div class: "flex flex-wrap gap-1.5" do %>
+              <% movie.kind.split(",").each do |genre| %>
+                <%= tag.span genre.strip,
+                             class: "rounded-full bg-paper px-2.5 py-0.5 text-[11px] font-semibold text-muted" %>
               <% end %>
             <% end %>
-          </div>
-          <div class="vote-score" >
-            <div class="choice-ranking-display" <%= "data-action=click->display-names#displayVotes" if choice.ranking > 0 %>>
-              <%=choice.ranking%>
-            </div>
-            <div class="show-votes d-none"  data-display-names-target="votes" data-action='click->display-names#hideVotes'>
-              <i class="fa-solid fa-circle-xmark"></i>
-              <h4>Votant<%= "s" if choice.votes.size > 1  %> :</h4>
-              <% choice.votes.each do |vote|%>
-                <h5>
-                  <li>
-                    <%= vote.user.email.split('@').first.capitalize %>
-                  </li>
-                </h5>
-              <% end %>
-            </div>
-          </div>
-          <div class="unvote-logo">
-            <% if @voted_choice_ids.include?(choice.id) %>
-              <%= link_to event_unvote_path(@event, choice), data: { turbo_method: :delete, turbo_confirm: "Voulez vous retirer votre vote?" } do %>
-                <i class="fa-solid fa-circle-minus"></i>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-        <div class="choice-owner">
-          <div class="owner-name">
-            Proposé par <%=choice.user.email.split('@').first.capitalize%>
-            <% if choice.user == current_user %>
-              <%= link_to choice_path(choice), data: { turbo_method: :delete, turbo_confirm: "Voulez vous retirer ce film?" } do %>
-                <i class="fa-solid fa-trash ms-2"></i>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </div>
+          <% end %>
+          <%= tag.p movie.overview.presence || "Pas de synopsis disponible.",
+                    class: "text-sm leading-relaxed text-muted" %>
+        <% end %>
+      <% end %>
     <% end %>
-  </div>
-  <div class="search-bar" id="search-bar"
-       data-controller="movie-search"
-       data-movie-search-search-url-value="<%= movies_search_path %>"
-       data-movie-search-add-url-value="<%= event_choices_path(@event) %>">
-    <form data-action="movie-search#search">
-      <div class="search-form-control form-group">
-        <input class="form-control string required" type="text" placeholder="Titre"
-               aria-label="Rechercher un film"
-               data-movie-search-target="query">
-        <button type="submit" class="btn btn-flat mb-4" aria-label="Rechercher">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </div>
-    </form>
-    <ul class="choices" data-movie-search-target="results">
-      <%# Search results are rendered here by movie_search_controller.js %>
-    </ul>
-  </div>
-</div>
-<div class="footer">
-</div>
+  <% end %>
+<% end %>
+
+<% if @choices.empty? %>
+  <%= tag.p "Aucun film proposé. Lancez la première recherche ci-dessous.",
+            class: "rounded-card border border-dashed border-line py-10 text-center text-sm text-muted" %>
+<% end %>
+
+<%= render "events/search", event: @event %>

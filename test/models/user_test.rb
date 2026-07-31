@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
   test "email must be unique" do
     duplicate = User.new(email: users(:alice).email, password: "password123")
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:email], "has already been taken"
+    assert_includes duplicate.errors[:email], "n'est pas disponible"
   end
 
   test "destroying a user destroys their choices and votes" do

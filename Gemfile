@@ -10,11 +10,11 @@ gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 6.4'
 
-# Asset pipeline: Propshaft serves the digested assets, dart-sass compiles the
-# SCSS under app/assets/stylesheets, and Importmap ships the JavaScript with no
-# bundler and no node_modules.
+# Asset pipeline: Propshaft serves the digested assets, Tailwind compiles the
+# stylesheet, and Importmap ships the JavaScript with no bundler and no
+# node_modules.
 gem 'propshaft'
-gem 'dartsass-rails'
+gem 'tailwindcss-rails', '~> 4.6'
 gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
@@ -23,7 +23,6 @@ gem 'stimulus-rails'
 gem 'bootsnap', require: false
 
 gem 'devise'
-gem 'simple_form'
 
 group :development, :test do
   # Call `debugger` anywhere in the code to stop execution and get a console.

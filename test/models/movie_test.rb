@@ -9,21 +9,21 @@ class MovieTest < ActiveSupport::TestCase
     movie = movies(:inception)
     movie.title = nil
     assert_not movie.valid?
-    assert_includes movie.errors[:title], "can't be blank"
+    assert_includes movie.errors[:title], "doit être rempli(e)"
   end
 
   test "is invalid without a poster_url" do
     movie = movies(:inception)
     movie.poster_url = nil
     assert_not movie.valid?
-    assert_includes movie.errors[:poster_url], "can't be blank"
+    assert_includes movie.errors[:poster_url], "doit être rempli(e)"
   end
 
   test "is invalid when another movie already uses the same tmdb_id" do
     duplicate = Movie.new(title: "Copie", poster_url: "https://example.test/p.jpg", tmdb_id: movies(:matrix).tmdb_id)
 
     assert_not duplicate.valid?
-    assert_includes duplicate.errors[:tmdb_id], "has already been taken"
+    assert_includes duplicate.errors[:tmdb_id], "n'est pas disponible"
   end
 
   test "destroying a movie destroys its choices" do

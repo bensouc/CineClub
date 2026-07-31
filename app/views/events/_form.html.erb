@@ -1,27 +1,47 @@
-<div class="d-flex flex-column p-4">
-  <div class="title">
-    <h1><%= title %></h1>
-  </div>
+<%= tag.header class: "pt-8 pb-6" do %>
+  <%= tag.h1 title, class: "text-4xl leading-none" %>
+  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-full" %>
+<% end %>
 
-  <%= simple_form_for(event) do |f| %>
-    <%= f.error_notification %>
-
-    <div class="form-inputs">
-      <%= f.input :name, label: "Nom de la soirée", input_html: { autofocus: true } %>
-      <%= f.input :date, as: :date, html5: true, label: "Date" %>
-    </div>
-
-    <div class="form-actions mt-3">
-      <%= f.button :submit, submit_label, class: "btn btn-primary" %>
-      <%= link_to "Annuler", events_path, class: "btn btn-secondary" %>
-    </div>
+<%= form_with model: event, class: "space-y-5" do |f| %>
+  <% if event.errors.any? %>
+    <%= tag.div role: "alert",
+                class: "rounded-xl border border-curtain/25 bg-curtain/5 p-4 text-sm text-curtain" do %>
+      <%= tag.p pluralize(event.errors.count, "erreur empêche", plural: "erreurs empêchent") + " l'enregistrement :",
+                class: "font-semibold" %>
+      <%= tag.ul class: "mt-1 list-inside list-disc" do %>
+        <% event.errors.full_messages.each do |message| %>
+          <%= tag.li message %>
+        <% end %>
+      <% end %>
+    <% end %>
   <% end %>
 
-  <% if event.persisted? %>
-    <div class="mt-4">
-      <%= link_to "Supprimer cette soirée", event_path(event), class: "btn btn-danger",
-                  data: { turbo_method: :delete,
-                          turbo_confirm: "Supprimer la soirée et tous ses films ?" } %>
-    </div>
+  <%= render "shared/field", form: f, name: :name, label: "Nom de la soirée",
+                             type: :text, options: { autofocus: true, placeholder: "Soirée SF" } %>
+
+  <%# Native date input: on mobile this opens the OS picker, which beats any
+      JavaScript calendar and keeps the app free of third-party scripts. %>
+  <%= render "shared/field", form: f, name: :date, label: "Date", type: :date %>
+
+  <%= tag.div class: "flex items-center gap-3 pt-2" do %>
+    <%= f.submit submit_label,
+                 class: "flex-1 rounded-xl bg-marquee px-4 py-3 font-bold text-marquee-ink " \
+                        "shadow-sm transition hover:brightness-95" %>
+    <%= link_to "Annuler", events_path,
+                class: "rounded-xl border border-line px-4 py-3 font-semibold text-muted " \
+                       "transition hover:bg-card hover:text-ink" %>
   <% end %>
-</div>
+<% end %>
+
+<% if event.persisted? %>
+  <%= tag.div class: "mt-10 border-t border-line pt-6" do %>
+    <%= link_to event_path(event),
+                data: { turbo_method: :delete, turbo_confirm: "Supprimer la soirée et tous ses films ?" },
+                class: "flex items-center justify-center gap-2 rounded-xl border border-curtain/30 " \
+                       "px-4 py-3 text-sm font-semibold text-curtain transition hover:bg-curtain/5" do %>
+      <%= icon :trash, size: "size-4" %>
+      Supprimer cette soirée
+    <% end %>
+  <% end %>
+<% end %>

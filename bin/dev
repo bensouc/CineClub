@@ -1,8 +1,21 @@
 #!/usr/bin/env sh
 
+# A stray `rbenv shell` exports RBENV_VERSION, which overrides .ruby-version and
+# makes every child process boot on the wrong Ruby. Clear it so the version this
+# project pins is the one foreman's processes actually get.
+unset RBENV_VERSION
+
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman
 fi
+
+# Default to port 3000 if not specified
+export PORT="${PORT:-3000}"
+
+# Let the debug gem allow remote connections,
+# but avoid loading until `debugger` is called
+export RUBY_DEBUG_OPEN="true"
+export RUBY_DEBUG_LAZY="true"
 
 exec foreman start -f Procfile.dev "$@"

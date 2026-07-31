@@ -9,7 +9,7 @@ class ChoiceTest < ActiveSupport::TestCase
     choice = choices(:inception_choice)
     choice.ranking = nil
     assert_not choice.valid?
-    assert_includes choice.errors[:ranking], "can't be blank"
+    assert_includes choice.errors[:ranking], "doit être rempli(e)"
   end
 
   test "the same movie cannot appear twice in one event" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_31_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_31_230000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_190000) do
     t.date "date"
     t.string "name"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "expires_at"
+    t.string "label"
+    t.integer "max_uses"
+    t.datetime "revoked_at"
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.integer "uses_count", default: 0, null: false
+    t.index ["created_by_id"], name: "index_invitations_on_created_by_id"
+    t.index ["token"], name: "index_invitations_on_token", unique: true
   end
 
   create_table "movies", force: :cascade do |t|
@@ -72,6 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_190000) do
   add_foreign_key "choices", "events"
   add_foreign_key "choices", "movies"
   add_foreign_key "choices", "users"
+  add_foreign_key "invitations", "users", column: "created_by_id"
   add_foreign_key "votes", "choices"
   add_foreign_key "votes", "users"
 end
