@@ -1,6 +1,6 @@
 <%# Full-bleed hero: the layout pads the page by 4, so break out of it with -mx-4.
     Photo credit and licence are recorded in app/assets/images/CREDITS.md. %>
-<%= tag.section class: "relative -mx-4 h-72 overflow-hidden" do %>
+<%= tag.section class: "relative -mx-4 h-56 overflow-hidden" do %>
   <%# Photo and its darkening veil share one masked wrapper, so they dissolve
       together into the page background instead of being cut off square. The
       veil fades to ink/0 rather than `transparent`, which CSS resolves to
@@ -13,13 +13,12 @@
     <%= tag.div class: "absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/70 via-60% to-ink/55" %>
   <% end %>
 
-  <%= tag.div class: "absolute inset-x-0 top-0 px-6 pt-9 text-center" do %>
+  <%= tag.div class: "absolute inset-0 flex flex-col justify-center px-6 pb-4 text-center" do %>
     <%= tag.h1 "Ciné Club",
                class: "text-7xl leading-none text-white [text-shadow:0_2px_16px_rgb(0_0_0_/_0.45)]" %>
-    <%= tag.div class: "film-strip mx-auto mt-5 h-3.5 w-44 rounded-none shadow-sm" %>
     <%= tag.p "Le film qui met tout le monde d'accord.",
               class: "mt-5 text-base font-medium text-white [text-shadow:0_1px_10px_rgb(0_0_0_/_0.5)]" %>
-    <%= tag.p "Chacun propose, chacun vote.",
+    <%= tag.p "On propose, on vote.",
               class: "mt-1 text-sm text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0_/_0.6)]" %>
   <% end %>
 <% end %>
