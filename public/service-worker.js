@@ -4,15 +4,17 @@
 // avec un handler `fetch`) et offrir un repli hors-ligne, SANS jamais servir de
 // HTML périmé — les navigations vont toujours au réseau d'abord.
 //
-// Bump CACHE_VERSION à chaque changement de cet ordre de cache pour forcer le
-// remplacement de l'ancien service worker.
+// Bump CACHE_VERSION pour forcer le remplacement du service worker : `activate`
+// purge alors tous les anciens caches, ce qui évite aussi que les assets digérés
+// des déploiements précédents s'accumulent indéfiniment (leurs noms changent à
+// chaque build, donc ils ne sont jamais re-servis, juste stockés).
 const CACHE_VERSION = "cineclub-v1";
-const PRECACHE = [
-  "/offline.html",
-  "/manifest.json",
-  "/icon-192.png",
-  "/icon-512.png"
-];
+
+// Seule la page de repli est pré-cachée : elle doit être disponible avant toute
+// panne réseau. Elle est autonome (SVG inline), donc rien d'autre n'est requis
+// pour l'afficher hors-ligne. Les assets digérés sont mis en cache à la volée
+// par le handler `fetch`.
+const PRECACHE = [ "/offline.html" ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

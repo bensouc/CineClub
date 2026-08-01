@@ -10,6 +10,10 @@
   --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
 
+  /* --color-paper est aussi codé en dur — les fichiers PWA sont statiques et ne
+     peuvent pas lire ce CSS — dans public/manifest.json (background/theme),
+     public/offline.html et la meta "theme-color" du layout. Le changer ici
+     impose de les mettre à jour. */
   --color-paper: #faf8f4;
   --color-card: #ffffff;
   --color-ink: #17130f;

@@ -4,7 +4,6 @@
   "description": "Choisissez et votez le prochain film du Ciné-Club.",
   "lang": "fr",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#faf8f4",
