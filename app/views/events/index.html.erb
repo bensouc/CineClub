@@ -1,7 +1,7 @@
 <%= tag.header class: "pt-8 pb-6" do %>
   <%= tag.p "Séances", class: "text-xs font-semibold uppercase tracking-[0.25em] text-marquee-ink" %>
   <%= tag.h1 "Ciné Club", class: "mt-1 text-5xl leading-none" %>
-  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-sm" %>
+  <%= tag.div class: "film-strip mt-4 h-3.5 rounded-none" %>
 <% end %>
 
 <%= tag.ul class: "space-y-4" do %>
@@ -14,12 +14,10 @@
                   class: "group relative block overflow-hidden rounded-card border border-line bg-card shadow-sm " \
                          "transition hover:-translate-y-0.5 hover:shadow-md #{'opacity-70' if past}" do %>
         <% unless ranked.any? %>
-          <%# Pas de film : l'image ciné plein-air de l'accueil habille TOUTE la
-              carte. La carte est en paysage (~3:1) comme la photo, donc elle
-              occupe pleine largeur et pleine hauteur sans déformation ni tranche
-              recadrée. Le dégradé garde le texte lisible à gauche. %>
-          <%# Illustration selon la salle : Canapé (intérieur) → salon,
-              Pelouse (extérieur) → ciné plein-air. %>
+          <%# Pas de film : une photo habille toute la carte (paysage comme la
+              carte, donc pleine largeur/hauteur sans déformation), choisie selon
+              la salle — Canapé (intérieur) → salon, Pelouse (extérieur) → plein
+              air. Le dégradé garde le texte lisible à gauche. %>
           <%= tag.div class: "pointer-events-none absolute inset-0" do %>
             <%# Miroir horizontal : l'écran lumineux (à gauche dans les photos)
                 passe à droite, là où le dégradé le laisse voir. %>
