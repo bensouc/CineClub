@@ -8,13 +8,15 @@
   <%= tag.div class: "hero-fade absolute inset-0" do %>
     <%= image_tag "cinema-plein-air.jpg", alt: "Séance de cinéma en plein air au crépuscule",
                   class: "absolute inset-0 h-full w-full object-cover" %>
-    <%= tag.div class: "absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/55 via-50% to-ink/0" %>
+    <%# Voile plus soutenu dans la moitié basse : c'est là que passe la tagline
+        blanche, sur l'herbe claire. Le masque hero-fade se charge du fondu du bas. %>
+    <%= tag.div class: "absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/70 via-60% to-ink/55" %>
   <% end %>
 
   <%= tag.div class: "absolute inset-x-0 top-0 px-6 pt-9 text-center" do %>
     <%= tag.h1 "Ciné Club",
                class: "text-7xl leading-none text-white [text-shadow:0_2px_16px_rgb(0_0_0_/_0.45)]" %>
-    <%= tag.div class: "film-strip mx-auto mt-5 h-3 w-32 rounded-none opacity-90" %>
+    <%= tag.div class: "film-strip mx-auto mt-5 h-3.5 w-44 rounded-none shadow-sm" %>
     <%= tag.p "Le film qui met tout le monde d'accord.",
               class: "mt-5 text-base font-medium text-white [text-shadow:0_1px_10px_rgb(0_0_0_/_0.5)]" %>
     <%= tag.p "Chacun propose, chacun vote.",
