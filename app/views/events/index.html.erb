@@ -18,9 +18,11 @@
               carte. La carte est en paysage (~3:1) comme la photo, donc elle
               occupe pleine largeur et pleine hauteur sans déformation ni tranche
               recadrée. Le dégradé garde le texte lisible à gauche. %>
+          <%# Illustration selon la salle : Canapé (intérieur) → salon,
+              Pelouse (extérieur) → ciné plein-air. %>
           <%= tag.div class: "pointer-events-none absolute inset-0" do %>
-            <%= image_tag "cinema-plein-air.jpg", alt: "", loading: "lazy",
-                          class: "h-full w-full object-cover" %>
+            <%= image_tag((event.indoor? ? "salon.jpg" : "pelouse.jpg"),
+                          alt: "", loading: "lazy", class: "h-full w-full object-cover") %>
             <%= tag.div class: "absolute inset-0 bg-gradient-to-r from-card from-35% via-card/80 to-card/20" %>
           <% end %>
         <% end %>
