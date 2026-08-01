@@ -3,7 +3,9 @@
 movie_night:
   name: Soirée ciné
   date: 2026-07-01
+  venue: indoor
 
 empty_night:
   name: Soirée sans films
   date: 2026-08-01
+  venue: outdoor

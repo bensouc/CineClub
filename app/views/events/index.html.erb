@@ -31,10 +31,13 @@
               <%# French keeps the singular for 0, so pluralize/1 is wrong here. %>
               <%= "#{ranked.size} film#{'s' if ranked.size > 1}" %>
             <% end %>
-            <% if past %>
-              <%= tag.span "Terminée",
-                           class: "mt-0.5 inline-flex w-fit items-center rounded-full bg-curtain/10 px-2.5 " \
-                                  "py-0.5 text-[11px] font-bold uppercase tracking-wider text-curtain" %>
+            <%= tag.div class: "mt-0.5 flex flex-wrap items-center gap-1.5" do %>
+              <%= venue_badge(event) %>
+              <% if past %>
+                <%= tag.span "Terminée",
+                             class: "inline-flex w-fit items-center rounded-full bg-curtain/10 px-2.5 " \
+                                    "py-0.5 text-[11px] font-bold uppercase tracking-wider text-curtain" %>
+              <% end %>
             <% end %>
           <% end %>
 

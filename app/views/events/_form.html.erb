@@ -24,6 +24,30 @@
       JavaScript calendar and keeps the app free of third-party scripts. %>
   <%= render "shared/field", form: f, name: :date, label: "Date", type: :date %>
 
+  <%# Interrupteur Tailwind : un checkbox masqué (coché = extérieur), la piste et
+      la pastille (::after) réagissent via peer-checked. Le libellé bascule aussi. %>
+  <%= tag.div do %>
+    <%= tag.span "Lieu", class: "mb-1.5 block text-sm font-semibold text-muted" %>
+    <%= f.label :venue, class: "flex cursor-pointer items-center justify-between gap-3 " \
+                               "rounded-xl border border-line bg-card py-3 pl-4 pr-3" do %>
+      <%= f.check_box :venue, { class: "peer sr-only" }, "outdoor", "indoor" %>
+
+      <%= tag.span class: "flex items-center gap-2 font-semibold text-marquee-ink peer-checked:hidden" do %>
+        <%= icon :sofa, size: "size-4" %>
+        Intérieur
+      <% end %>
+      <%= tag.span class: "hidden items-center gap-2 font-semibold text-marquee-ink peer-checked:flex" do %>
+        <%= icon :palm, size: "size-4" %>
+        Extérieur
+      <% end %>
+
+      <%= tag.span class: "relative h-6 w-11 shrink-0 rounded-full bg-line transition-colors " \
+                          "peer-checked:bg-marquee after:absolute after:left-0.5 after:top-0.5 " \
+                          "after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow " \
+                          "after:transition-transform after:content-[''] peer-checked:after:translate-x-5" %>
+    <% end %>
+  <% end %>
+
   <%= tag.div class: "flex items-center gap-3 pt-2" do %>
     <%= f.submit submit_label,
                  class: "flex-1 rounded-xl bg-marquee px-4 py-3 font-bold text-marquee-ink " \

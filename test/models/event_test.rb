@@ -19,6 +19,18 @@ class EventTest < ActiveSupport::TestCase
     assert_includes event.errors[:date], "doit être rempli(e)"
   end
 
+  test "venue defaults to indoor for a new event" do
+    assert Event.new.indoor?
+  end
+
+  test "venue can be set to outdoor" do
+    assert events(:empty_night).outdoor?
+  end
+
+  test "an unknown venue is rejected" do
+    assert_raises(ArgumentError) { Event.new(venue: "rooftop") }
+  end
+
   test "movies are reachable through choices" do
     assert_equal [movies(:inception), movies(:matrix)].sort_by(&:id),
                  events(:movie_night).movies.sort_by(&:id)

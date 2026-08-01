@@ -2,6 +2,11 @@ class Event < ApplicationRecord
   has_many :choices, dependent: :destroy
   has_many :movies, through: :choices
 
+  # Où se tient la séance. La colonne est non-null avec un défaut "indoor",
+  # donc un event a toujours une valeur — d'où l'absence de validation de
+  # présence : elle serait toujours satisfaite.
+  enum :venue, { indoor: "indoor", outdoor: "outdoor" }
+
   validates :name, presence: true
   validates :date, presence: true
 

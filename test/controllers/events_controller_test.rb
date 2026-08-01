@@ -52,13 +52,14 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:admin)
 
     assert_difference("Event.count", 1) do
-      post events_path, params: { event: { name: "Soirée polar", date: "2026-09-01" } }
+      post events_path, params: { event: { name: "Soirée polar", date: "2026-09-01", venue: "outdoor" } }
     end
 
     event = Event.order(:created_at).last
     assert_redirected_to event_path(event)
     assert_equal "Soirée polar", event.name
     assert_equal Date.new(2026, 9, 1), event.date
+    assert event.outdoor?
   end
 
   test "creating an invalid event re-renders the form" do

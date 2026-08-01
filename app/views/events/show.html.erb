@@ -5,6 +5,8 @@
   <% end %>
   <%= tag.h1 @event.name, class: "mt-1 text-4xl leading-none" %>
 
+  <%= venue_badge(@event, extra_class: "mt-2") %>
+
   <% if admin? %>
     <%= link_to "Modifier la soirée", edit_event_path(@event),
                 class: "mt-3 inline-flex items-center rounded-lg border border-line px-3 py-1.5 " \
