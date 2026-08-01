@@ -56,6 +56,13 @@
           <% end %>
         <% end %>
 
+        <%# Repère : toute l'affiche est cliquable pour ouvrir le synopsis. %>
+        <%= tag.span "aria-hidden": true,
+                     class: "pointer-events-none absolute bottom-2 right-2 flex size-7 items-center " \
+                            "justify-center rounded-full bg-ink/70 text-white backdrop-blur" do %>
+          <%= icon :info, size: "size-4" %>
+        <% end %>
+
         <%# Voters list, revealed over the poster rather than pushed outside it. %>
         <%= tag.div data: { votes_target: "panel" },
                     class: "absolute inset-0 hidden flex-col gap-1 overflow-y-auto bg-ink/90 p-3 text-white backdrop-blur" do %>
