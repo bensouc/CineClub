@@ -39,16 +39,27 @@
                                     "py-0.5 text-[11px] font-bold uppercase tracking-wider text-curtain" %>
               <% end %>
             <% end %>
+            <%= voters_stack(event) %>
           <% end %>
 
-          <%# Up to two winning posters, fanned. Fixed width, so a missing
-              poster never changes the card's height. %>
+          <%# Poster area: up to two winning posters fanned; a fixed width so a
+              missing poster never changes the card's height. With no film yet,
+              the open-air image from the home page fills the slot instead of a
+              blank so the card still reads as intentional. %>
           <% if ranked.any? %>
             <%= tag.div class: "relative w-24 shrink-0 overflow-hidden" do %>
               <% ranked.first(event.exequo? ? 2 : 1).each_with_index do |choice, i| %>
                 <%= image_tag choice.movie.poster_url, alt: choice.movie.title, loading: "lazy",
                               class: "absolute inset-y-0 h-full w-20 object-cover " \
                                      "#{i.zero? ? 'left-0' : 'left-6 shadow-[-6px_0_12px_rgba(0,0,0,.25)]'}" %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= tag.div class: "relative w-24 shrink-0 overflow-hidden bg-reel" do %>
+              <%= image_tag "cinema-plein-air.jpg", alt: "", loading: "lazy",
+                            class: "absolute inset-0 h-full w-full object-cover opacity-40" %>
+              <%= tag.span class: "absolute inset-0 flex items-center justify-center text-paper/80" do %>
+                <%= icon :film, size: "size-6" %>
               <% end %>
             <% end %>
           <% end %>

@@ -31,6 +31,24 @@ class EventTest < ActiveSupport::TestCase
     assert_raises(ArgumentError) { Event.new(venue: "rooftop") }
   end
 
+  test "voters lists the distinct users who voted" do
+    assert_equal [ users(:alice) ], events(:movie_night).voters
+  end
+
+  test "voters counts a user once even across several choices" do
+    Vote.create!(user: users(:alice), choice: choices(:matrix_choice))
+    assert_equal [ users(:alice) ], events(:movie_night).reload.voters
+  end
+
+  test "voters grows with distinct users across the event's choices" do
+    Vote.create!(user: users(:bob), choice: choices(:matrix_choice))
+    assert_equal 2, events(:movie_night).reload.voters.size
+  end
+
+  test "voters is empty when nobody voted" do
+    assert_empty events(:empty_night).voters
+  end
+
   test "movies are reachable through choices" do
     assert_equal [movies(:inception), movies(:matrix)].sort_by(&:id),
                  events(:movie_night).movies.sort_by(&:id)

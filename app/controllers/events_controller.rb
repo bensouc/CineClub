@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_action :require_admin, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @events = Event.includes(choices: :movie).order(date: :desc)
+    @events = Event.includes(choices: [ :movie, { votes: :user } ]).order(date: :desc)
   end
 
   def show

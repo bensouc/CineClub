@@ -16,6 +16,13 @@ class Event < ApplicationRecord
     choices.sort_by { |choice| -choice.ranking.to_i }
   end
 
+  # Distinct users who cast at least one vote in this event, across all its
+  # choices. Uses the preloaded :choices/:votes/:user associations (see
+  # EventsController#index) so the list page stays free of N+1 queries.
+  def voters
+    choices.flat_map(&:votes).map(&:user).uniq(&:id)
+  end
+
   # True when the top two choices are tied on votes, so the index page knows to
   # show both posters instead of a single winner.
   def exequo?
