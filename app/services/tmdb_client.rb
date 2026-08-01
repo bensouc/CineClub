@@ -44,13 +44,13 @@ class TmdbClient
     # Everything we persist about a movie, as Movie attributes.
     # Returns nil when TMDB has no movie with that id.
     #
-    # `append_to_response` nests the trailer list inside the movie payload, so
-    # this costs one HTTPS round-trip rather than two.
+    # `append_to_response` nests the trailer list and the credits inside the
+    # movie payload, so this costs one HTTPS round-trip rather than three.
     def movie_details(tmdb_id)
       tmdb_id = coerce_id(tmdb_id)
       return nil if tmdb_id.nil?
 
-      body = get("movie/#{tmdb_id}", append_to_response: "videos")
+      body = get("movie/#{tmdb_id}", append_to_response: "videos,credits")
       return nil if body.nil?
 
       {
@@ -61,6 +61,7 @@ class TmdbClient
         kind: Array(body["genres"]).filter_map { |genre| genre["name"].presence }.join(", "),
         year: body["release_date"].presence,
         overview: body["overview"].to_s,
+        director: director_for(body.dig("credits", "crew")),
         trailer_url: youtube_trailer_url(body.dig("videos", "results"))
       }
     end
@@ -94,6 +95,11 @@ class TmdbClient
     # TMDB omits the localised title for some films; fall back to the original.
     def title_for(body)
       body["title"].presence || body["original_title"].to_s
+    end
+
+    # First person credited as "Director" in the crew, or nil.
+    def director_for(crew)
+      Array(crew).find { |member| member["job"] == "Director" }&.dig("name").presence
     end
 
     def youtube_trailer_url(results)

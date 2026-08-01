@@ -36,6 +36,13 @@ class TmdbClientTest < ActiveSupport::TestCase
         { "site" => "YouTube", "type" => "Featurette", "key" => "featurette" },
         { "site" => "YouTube", "type" => "Trailer", "key" => "trailerkey" }
       ]
+    },
+    "credits" => {
+      "crew" => [
+        { "job" => "Writer", "name" => "Someone Else" },
+        { "job" => "Director", "name" => "Lana Wachowski" },
+        { "job" => "Director", "name" => "Lilly Wachowski" }
+      ]
     }
   }.freeze
 
@@ -112,6 +119,7 @@ class TmdbClientTest < ActiveSupport::TestCase
     assert_equal "https://image.tmdb.org/t/p/w300/matrix.jpg", details[:poster_url]
     assert_equal "1999-03-31", details[:year]
     assert_equal "https://www.youtube.com/watch?v=trailerkey", details[:trailer_url]
+    assert_equal "Lana Wachowski", details[:director], "the first credited director wins"
   end
 
   test "movie_details uses the genre names TMDB already localised" do
@@ -126,7 +134,7 @@ class TmdbClientTest < ActiveSupport::TestCase
     TmdbClient.movie_details(603)
 
     assert_requested :get, %r{/3/movie/603\?}, times: 1 do |request|
-      CGI.parse(request.uri.query)["append_to_response"] == ["videos"]
+      CGI.parse(request.uri.query)["append_to_response"] == ["videos,credits"]
     end
     assert_not_requested :get, %r{/3/movie/603/videos}
   end

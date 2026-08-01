@@ -129,6 +129,12 @@
               <% end %>
             <% end %>
           <% end %>
+          <% if movie.director.present? %>
+            <%= tag.p class: "flex items-center gap-1.5 text-sm font-semibold text-ink" do %>
+              <%= icon :clapperboard, size: "size-4" %>
+              Réalisé par <%= movie.director %>
+            <% end %>
+          <% end %>
           <%= tag.p movie.overview.presence || "Pas de synopsis disponible.",
                     class: "text-sm leading-relaxed text-muted" %>
         <% end %>
