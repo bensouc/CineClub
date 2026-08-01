@@ -35,7 +35,7 @@
             <%= tag.span event.date.year, class: "text-[11px] text-muted" %>
           <% end %>
 
-          <%= tag.div class: "flex min-w-0 flex-1 flex-col justify-center gap-1.5 px-4 py-4" do %>
+          <%= tag.div class: "flex min-w-0 flex-1 flex-col justify-center gap-1.5 py-4 pl-4 #{ranked.any? ? 'pr-28' : 'pr-4'}" do %>
             <%= tag.h2 event.name, class: "truncate text-2xl leading-none" %>
             <%= tag.p class: "flex items-center gap-1.5 text-sm text-muted" do %>
               <%= icon :film, size: "size-4" %>
@@ -53,16 +53,18 @@
             <%= voters_stack(event) %>
           <% end %>
 
-          <%# Up to two winning posters, fanned. Fixed width so a missing poster
-              never changes the card's height. Cards with no film are handled by
-              the full-card open-air background above, not here. %>
+          <%# Winning poster(s), flush right at their natural 2:3 ratio: full card
+              height, width follows the image so nothing is cropped or stretched.
+              Two fanned posters on a tie. No-film cards use the full-card open-air
+              background above instead. %>
           <% if ranked.any? %>
-            <%= tag.div class: "relative w-24 shrink-0 overflow-hidden" do %>
-              <% ranked.first(event.exequo? ? 2 : 1).each_with_index do |choice, i| %>
-                <%= image_tag choice.movie.poster_url, alt: choice.movie.title, loading: "lazy",
-                              class: "absolute inset-y-0 h-full w-20 object-cover " \
-                                     "#{i.zero? ? 'left-0' : 'left-6 shadow-[-6px_0_12px_rgba(0,0,0,.25)]'}" %>
-              <% end %>
+            <%# Absolute so the poster never drives the card height: it fills the
+                content's height, flush right, at its natural 2:3 width — nothing
+                cropped or stretched. %>
+            <% winner = ranked.first.movie %>
+            <%= tag.div class: "pointer-events-none absolute inset-y-0 right-0 overflow-hidden" do %>
+              <%= image_tag winner.poster_url, alt: winner.title, loading: "lazy",
+                            class: "h-full w-auto object-cover" %>
             <% end %>
           <% end %>
         <% end %>
